@@ -5,12 +5,12 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "*" ]
-    paths-ignore:
-      - '**/README.md'
+    paths:
+      - 'infra/**'
   pull_request:
     branches: [ "main" ]
-    paths-ignore:
-      - '**/README.md'
+    paths:
+      - 'infra/**'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 permissions: read-all
