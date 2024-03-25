@@ -20,21 +20,21 @@ variable "secret_key" {
 }
 variable "name" {
   description = "The name of the application."
-  type = string
-  default = "app-4"
+  type        = string
+  default     = "app-4"
 }
 variable "vpc_cidr" {
   description = "The CIDR of the VPC."
-  type = string
-  default = "11.90.30.0/25"
+  type        = string
+  default     = "11.90.30.0/25"
 }
 variable "subnet_cidr_public" {
   description = "The CIDR blocks for the public subnets."
-  type = list(any)
-  default = [ "11.90.30.0/27", "11.90.30.32/27", "11.90.30.64/27" ]
+  type        = list(any)
+  default     = ["11.90.30.0/27", "11.90.30.32/27", "11.90.30.64/27"]
 }
 variable "availability_zone" {
   description = "The availability zones for teh public subnets."
-  type = list(any)
-  default = [ "us-east-2a", "us-east-2b", "us-east-2c" ]
+  type        = list(any)
+  default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
 }
