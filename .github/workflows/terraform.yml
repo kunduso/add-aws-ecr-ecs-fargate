@@ -10,8 +10,7 @@ on:
     branches: ["main"]
     paths:
       - 'infra/**'
-working-directory:
-  - 'infra/**'
+
 permissions: read-all
 #--------------------------
 #
@@ -31,6 +30,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: ./infra
 
     steps:
     # Checkout the repository to the GitHub Actions runner

@@ -15,8 +15,6 @@ on:
   workflow_dispatch:
 permissions: read-all
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-working-directory:
-  - 'infra/**'
 jobs:
   # This workflow contains a single job called "scan"
   scan:
@@ -27,7 +25,9 @@ jobs:
       
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./infra
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so follow-up steps can access it
