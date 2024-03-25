@@ -28,7 +28,7 @@ resource "aws_route_table" "this_rt" {
 resource "aws_route_table_association" "public" {
   count          = length(var.subnet_cidr_public)
   subnet_id      = element(aws_subnet.public.*.id, count.index)
-  route_table_id = aws_route_table.this-rt.id
+  route_table_id = aws_route_table.this_rt.id
 }
 resource "aws_security_group" "web_pub_sg" {
   name        = "allow_inbound_access"
