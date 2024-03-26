@@ -1,3 +1,4 @@
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service
 resource "aws_ecs_cluster" "app_cluster" {
   name = var.name
   configuration {
