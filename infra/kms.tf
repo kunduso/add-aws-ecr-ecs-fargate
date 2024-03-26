@@ -1,5 +1,5 @@
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key
-resource "aws_kms_key" "key" {
+resource "aws_kms_key" "app_4_key" {
   description             = "KMS key for app-4"
   deletion_window_in_days = 7
   enable_key_rotation     = true
@@ -7,11 +7,11 @@ resource "aws_kms_key" "key" {
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias
 resource "aws_kms_alias" "key" {
   name          = "alias/${var.name}"
-  target_key_id = aws_kms_key.key.id
+  target_key_id = aws_kms_key.app_4_key.id
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key_policy
 resource "aws_kms_key_policy" "encrypt_app" {
-  key_id = aws_kms_key.key.id
+  key_id = aws_kms_key.app_4_key.id
   policy = jsonencode({
     Id = "encryption-rest"
     Statement = [
