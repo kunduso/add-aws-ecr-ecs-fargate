@@ -31,7 +31,12 @@ variable "vpc_cidr" {
 variable "subnet_cidr_public" {
   description = "The CIDR blocks for the public subnets."
   type        = list(any)
-  default     = ["11.90.30.0/27", "11.90.30.32/27", "11.90.30.64/27"]
+  default     = ["11.90.30.0/27", "11.90.30.32/27"]
+}
+variable "subnet_cidr_private" {
+  description = "The CIDR blocks for the private subnets."
+  type        = list(any)
+  default     = ["11.90.30.64/27", "11.90.30.96/27"]
 }
 variable "availability_zone" {
   description = "The availability zones for teh public subnets."
