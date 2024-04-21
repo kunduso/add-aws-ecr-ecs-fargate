@@ -32,23 +32,23 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.this_rt.id
 }
 resource "aws_security_group" "web_pub_sg" {
-  name        = "allow_inbound_access"
+  name        = "${var.name}_allow_inbound_access"
   description = "allow inbound traffic"
   vpc_id      = aws_vpc.this.id
 
   ingress {
-    description = "from internet"
+    description = "traffic from the internet"
     from_port   = "8080"
     to_port     = "8080"
-    protocol    = "-1"
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    description = "traffic from the internet"
-    cidr_blocks = ["0.0.0.0/0"]
-    from_port   = "80"
+    description = "traffic from the container"
+    from_port   = "0"
+    to_port     = "0"
     protocol    = "-1"
-    to_port     = "80"
+    cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
     "Name" = "${var.name}-ec2-sg"
