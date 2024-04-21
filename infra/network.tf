@@ -8,7 +8,7 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames = true
   enable_dns_support   = true
   tags = {
-    "Name" = "app-4"
+    "Name" = "${var.name}"
   }
 }
 resource "aws_subnet" "public" {
@@ -17,13 +17,13 @@ resource "aws_subnet" "public" {
   cidr_block        = var.subnet_cidr_public[count.index]
   availability_zone = var.availability_zone[count.index]
   tags = {
-    "Name" = "app-4-public-${count.index + 1}"
+    "Name" = "${var.name}-public-${count.index + 1}"
   }
 }
 resource "aws_route_table" "this_rt" {
   vpc_id = aws_vpc.this.id
   tags = {
-    "Name" = "app-4-route-table"
+    "Name" = "${var.name}-route-table"
   }
 }
 resource "aws_route_table_association" "public" {
@@ -32,31 +32,32 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.this_rt.id
 }
 resource "aws_security_group" "web_pub_sg" {
-  name        = "allow_inbound_access"
+  name        = "${var.name}_allow_inbound_access"
   description = "allow inbound traffic"
   vpc_id      = aws_vpc.this.id
 
   ingress {
-    description = "from vpc"
-    from_port   = "0"
-    to_port     = "0"
-    protocol    = "-1"
+    description = "traffic from the internet"
+    from_port   = "8080"
+    to_port     = "8080"
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    cidr_blocks = ["0.0.0.0/0"]
+    description = "traffic from the container"
     from_port   = "0"
-    protocol    = "-1"
     to_port     = "0"
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    "Name" = "app-4-ec2-sg"
+    "Name" = "${var.name}-ec2-sg"
   }
 }
 resource "aws_internet_gateway" "this_igw" {
   vpc_id = aws_vpc.this.id
   tags = {
-    "Name" = "app-4-gateway"
+    "Name" = "${var.name}-gateway"
   }
 }
 resource "aws_route" "internet_route" {
