@@ -42,3 +42,23 @@ resource "aws_route" "internet_route" {
   route_table_id         = aws_route_table.this_rt.id
   gateway_id             = aws_internet_gateway.this_igw.id
 }
+resource "aws_subnet" "private" {
+  count             = length(var.subnet_cidr_public)
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = var.subnet_cidr_private[count.index]
+  availability_zone = var.availability_zone[count.index]
+  tags = {
+    "Name" = "${var.name}-private-${count.index + 1}"
+  }
+}
+resource "aws_route_table" "this_rt_private" {
+  vpc_id = aws_vpc.this.id
+  tags = {
+    "Name" = "${var.name}-route-table-private"
+  }
+}
+resource "aws_route_table_association" "private" {
+  count          = length(var.subnet_cidr_private)
+  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  route_table_id = aws_route_table.this_rt_private.id
+}
