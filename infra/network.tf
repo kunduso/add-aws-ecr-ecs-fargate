@@ -31,29 +31,6 @@ resource "aws_route_table_association" "public" {
   subnet_id      = element(aws_subnet.public.*.id, count.index)
   route_table_id = aws_route_table.this_rt.id
 }
-resource "aws_security_group" "web_pub_sg" {
-  name        = "${var.name}_allow_inbound_access"
-  description = "allow inbound traffic"
-  vpc_id      = aws_vpc.this.id
-
-  ingress {
-    description = "traffic from the internet"
-    from_port   = "8080"
-    to_port     = "8080"
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    description = "traffic from the container"
-    from_port   = "0"
-    to_port     = "0"
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    "Name" = "${var.name}-ec2-sg"
-  }
-}
 resource "aws_internet_gateway" "this_igw" {
   vpc_id = aws_vpc.this.id
   tags = {
