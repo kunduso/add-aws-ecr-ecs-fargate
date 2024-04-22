@@ -4,7 +4,7 @@ resource "aws_lb" "app_lb" {
   load_balancer_type         = "application"
   subnets                    = [for subnet in aws_subnet.public : subnet.id]
   idle_timeout               = 60
-  security_groups            = [aws_security_group.web_pub_sg.id]
+  security_groups            = [aws_security_group.custom_sg.id]
   internal                   = false
   enable_deletion_protection = true
 }
