@@ -7,6 +7,7 @@ resource "aws_lb" "app_lb" {
   security_groups            = [aws_security_group.custom_sg.id]
   internal                   = false
   enable_deletion_protection = true
+  drop_invalid_header_fields = true
 }
 
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
