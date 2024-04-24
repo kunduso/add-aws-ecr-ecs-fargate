@@ -1,0 +1,44 @@
+name: docker-build-deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: [ '*' ]
+    paths:
+      - 'app/**'
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'app/**'
+env:
+  AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
+  #ECR_REPOSITORY: MY_ECR_REPOSITORY
+permissions: read-all
+jobs:
+  build:
+    name: 'continuous-integration'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./app
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.IAM_ROLE }}
+        role-session-name: AWSSession
+        aws-region: ${{ env.AWS_REGION }}
+    - name: Login to Amazon ECR Private
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
