@@ -38,6 +38,8 @@ jobs:
       run: echo "::set-output name=date::$(date +'%Y%m%d')"
       env:
           TAG_NAME: ${{ steps.date.outputs.date }}
+    - name: Print current date
+      run: echo "Current date is ${{ steps.date.outputs.date }}"
     # - name: Configure AWS Credentials Action For GitHub Actions
     #   uses: aws-actions/configure-aws-credentials@v4
     #   with:
