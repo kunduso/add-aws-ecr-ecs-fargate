@@ -37,7 +37,7 @@ jobs:
       id: date
       run: echo "TAG_NAME=$(date +'%Y%m%d').${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
     - name: Print Image Tag
-      run: echo "Tag Name for the Image ${{ env.TAG_NAME }}""
+      run: echo "Tag Name for the Image ${{ env.TAG_NAME }}"
     # https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions
     - name: Configure AWS Credentials Action For GitHub Actions
       uses: aws-actions/configure-aws-credentials@v4
