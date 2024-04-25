@@ -37,7 +37,7 @@ jobs:
       id: date
       run: |
         echo "::set-output name=date::$(date +'%Y%m%d')"
-        echo "TAG_NAME=${{ steps.date.outputs.date }}" >> $GITHUB_ENV
+        echo "TAG_NAME=Test" >> $GITHUB_ENV
     - name: Print Tag Name
       run: echo "Tag Name is ${{ env.TAG_NAME }}.${{ github.run_number }}.${{ github.run_attempt }}"
     - name: Print Date
