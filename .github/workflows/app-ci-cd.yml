@@ -35,9 +35,9 @@ jobs:
       uses: actions/checkout@v3
     - name: Get current date
       id: date
-      run: echo "::set-output name=date::$(date +'%Y%m%d')"
-      env:
-          TAG_NAME: ${{ steps.date.outputs.date }}
+      run: |
+        echo "::set-output name=date::$(date +'%Y%m%d')"
+        echo "TAG_NAME=${{ steps.date.outputs.date }}" >> $GITHUB_ENV
     - name: Print Tag Name
       run: echo "Tag Name is ${{ env.TAG_NAME }}.${{ github.run_number }}.${{ github.run_attempt }}"
     - name: Print Date
