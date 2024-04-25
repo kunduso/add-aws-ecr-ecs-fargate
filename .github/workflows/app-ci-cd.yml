@@ -36,14 +36,9 @@ jobs:
     - name: Get current date
       id: date
       run: |
-        echo "::set-output name=date::$(date +'%Y%m%d')"
-        echo "TAG_NAME=Test" >> $GITHUB_ENV
+        echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
     - name: Print Tag Name
-      run: echo "Tag Name is ${{ env.TAG_NAME }}.${{ github.run_number }}.${{ github.run_attempt }}"
-    - name: Print Date
-      run: echo "Date is ${{ steps.date.outputs.date }}"
-    - name: Print Environment value
-      run: echo "TAG_NAME is ${{ env.TAG_NAME }}.${{ github.run_number }}.${{ github.run_attempt }}"
+      run: echo "Tag Name is ${{ env.DATE }}.${{ github.run_number }}.${{ github.run_attempt }}"
     # - name: Configure AWS Credentials Action For GitHub Actions
     #   uses: aws-actions/configure-aws-credentials@v4
     #   with:
