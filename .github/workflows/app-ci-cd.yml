@@ -37,7 +37,7 @@ jobs:
       id: date
       run: |
         echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
-        echo "TAG_NAME=${{ env.DATE }}.${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
+        echo "TAG_NAME=$(date +'%Y%m%d').${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
     - name: Print Tag Name
       run: echo "Tag Name is ${{ env.TAG_NAME }}"
     # - name: Configure AWS Credentials Action For GitHub Actions
