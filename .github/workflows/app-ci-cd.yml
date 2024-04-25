@@ -33,13 +33,13 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Get current date
+    - name: Generate Image Tag
       id: date
       run: |
         echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
-        echo "Tag Name is ${{ env.DATE }}.${{ github.run_number }}.${{ github.run_attempt }}"
-    # - name: Print Tag Name
-    #   run: echo "Tag Name is ${{ env.DATE }}.${{ github.run_number }}.${{ github.run_attempt }}"
+        echo "TAG_NAME=${{ env.DATE }}.${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
+    - name: Print Tag Name
+      run: echo "Tag Name is ${{ env.TAG_NAME }}"
     # - name: Configure AWS Credentials Action For GitHub Actions
     #   uses: aws-actions/configure-aws-credentials@v4
     #   with:
