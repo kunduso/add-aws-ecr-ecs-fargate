@@ -43,7 +43,7 @@ jobs:
     - name: Print Date
       run: echo "Date is ${{ steps.date.outputs.date }}"
     - name: Print Environment value
-      run: echo "TAG_NAME is ${{ env.TAG_NAME }}"
+      run: echo "TAG_NAME is ${{ env.TAG_NAME }}.${{ github.run_number }}.${{ github.run_attempt }}"
     # - name: Configure AWS Credentials Action For GitHub Actions
     #   uses: aws-actions/configure-aws-credentials@v4
     #   with:
