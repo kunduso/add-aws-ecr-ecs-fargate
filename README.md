@@ -14,4 +14,4 @@ Ensure that the policy attached to the IAM role whose credentials are being used
 <br />Review the code including the [`terraform.yml`](./.github/workflows/terraform.yml) to understand the steps in the GitHub Actions pipeline. Also review the `terraform` code to understand all the concepts associated with creating an AWS VPC, subnets, internet gateway, route table, and route table association.
 <br />If you want to check the pipeline logs, click on the **Build Badge** (terrform-infra-provisioning) above the image in this ReadMe.
 ## License
-This code is released under the Unlincse License. See [LICENSE](LICENSE).
+This code is released under the Unlicense License. See [LICENSE](LICENSE).
