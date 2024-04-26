@@ -51,11 +51,16 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2.0.1
       with:
         mask-password: 'true'
-    - name: Build, tag, and push docker image to Amazon ECR
+    - name: Build and tag docker image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: ${{ env.ECR_REPOSITORY }}
         IMAGE_TAG: ${{ env.TAG_NAME }}
-      run: |
-        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      run: docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+    - name: Push docker image to Amazon ECR
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.TAG_NAME }}
+      run: docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      if: github.ref == 'refs/heads/main'
