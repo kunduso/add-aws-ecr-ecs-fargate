@@ -2,9 +2,11 @@
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/kunduso/add-aws-ecr-ecs-fargate)](https://github.com/kunduso/add-aws-ecr-ecs-fargate/issues?q=is%3Aissue+is%3Aclosed) [![GitHub issues](https://img.shields.io/github/issues/kunduso/add-aws-ecr-ecs-fargate)](https://GitHub.com/kunduso/add-aws-ecr-ecs-fargate/issues/) 
 [![terraform-infra-provisioning](https://github.com/kunduso/add-aws-ecr-ecs-fargate/actions/workflows/terraform.yml/badge.svg?branch=main)](https://github.com/kunduso/add-aws-ecr-ecs-fargate/actions/workflows/terraform.yml) [![checkov-scan](https://github.com/kunduso/add-aws-ecr-ecs-fargate/actions/workflows/code-scan.yml/badge.svg?branch=main)](https://github.com/kunduso/add-aws-ecr-ecs-fargate/actions/workflows/code-scan.yml) [![docker-build-deploy](https://github.com/kunduso/add-aws-ecr-ecs-fargate/actions/workflows/app-ci-cd.yml/badge.svg?branch=main)](https://github.com/kunduso/add-aws-ecr-ecs-fargate/actions/workflows/app-ci-cd.yml)
 
-## Introduction
-This repository contains the [Terraform code](./infra) to provision the necessary infrastructure components and the [Docker application](./app/) for running containerized applications on Amazon Elastic Container Service (ECS). The infrastructure components include:
 
+## Introduction
+This repository contains the [Terraform code](./infra) to provision the necessary infrastructure components and the [Docker application](./app/) for running containerized applications on Amazon Elastic Container Service (ECS). 
+![Image](https://skdevops.files.wordpress.com/2024/04/90-image-1-2.png)
+<br />The infrastructure components include:
 - **Amazon Virtual Private Cloud (VPC)**: A logically isolated virtual network where your resources are deployed.
 - **Security Groups**: Virtual firewalls that control inbound and outbound traffic to your resources.
 - **VPC Endpoints**: Gateways that enable secure and private connections between your VPC and AWS services.
