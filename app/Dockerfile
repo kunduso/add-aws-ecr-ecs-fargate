@@ -16,7 +16,7 @@ COPY ./app /usr/src/app
 WORKDIR /usr/src/app
 
 # Install dependencies from packages.json
-RUN npm install
+RUN npm install -g npm@10.6.0
 
 # Command for container to execute
 ENTRYPOINT [ "node", "app.js" ]
