@@ -63,4 +63,4 @@ jobs:
         REPOSITORY: ${{ env.ECR_REPOSITORY }}
         IMAGE_TAG: ${{ env.TAG_NAME }}
       run: docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-      if:  ${{ (github.event_name != 'pull_request')
+      if: github.event_name != 'pull_request'
