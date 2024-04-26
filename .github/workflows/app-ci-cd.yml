@@ -10,6 +10,7 @@ on:
     branches: ["main"]
     paths:
       - 'app/**'
+      - '.github/workflows/app-ci-cd.yml'
 env:
   AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: app-4
@@ -34,7 +35,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Generate Image Tag
-      id: date
+      id: tag
       run: echo "TAG_NAME=$(date +'%Y%m%d').${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
     - name: Print Image Tag
       run: echo "Tag Name for the Image ${{ env.TAG_NAME }}"
@@ -57,6 +58,7 @@ jobs:
         REPOSITORY: ${{ env.ECR_REPOSITORY }}
         IMAGE_TAG: ${{ env.TAG_NAME }}
       run: docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+    # Push the Docker image to Amazon ECR, but only if the even is not a pull request.
     - name: Push docker image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
