@@ -24,6 +24,7 @@ jobs:
       contents: read
       id-token: write
       pull-requests: write
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
@@ -58,6 +59,21 @@ jobs:
         REPOSITORY: ${{ env.ECR_REPOSITORY }}
         IMAGE_TAG: ${{ env.TAG_NAME }}
       run: docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+    # https://github.com/marketplace/actions/aqua-security-trivy
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.TAG_NAME }}
+      with:
+        image-ref: '${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_NAME }}'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
     # Push the Docker image to Amazon ECR, but only if the even is not a pull request.
     - name: Push docker image to Amazon ECR
       env:
