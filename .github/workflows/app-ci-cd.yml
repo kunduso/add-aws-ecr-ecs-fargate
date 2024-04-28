@@ -24,6 +24,7 @@ jobs:
       contents: read
       id-token: write
       pull-requests: write
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
