@@ -61,6 +61,10 @@ jobs:
     # https://github.com/marketplace/actions/aqua-security-trivy
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.TAG_NAME }}
       with:
         image-ref: '$REGISTRY/$REPOSITORY:$IMAGE_TAG'
         format: 'sarif'
