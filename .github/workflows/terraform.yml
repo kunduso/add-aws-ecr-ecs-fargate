@@ -42,7 +42,7 @@ jobs:
       with:
         role-to-assume: ${{ secrets.IAM_ROLE }}
         role-session-name: AWSSession
-        aws-region: us-east-2
+        aws-region: ${{ env.AWS_REGION }}
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
