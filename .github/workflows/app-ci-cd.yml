@@ -89,7 +89,7 @@ jobs:
         IMAGE_TAG: ${{ env.TAG_NAME }}
       run: echo "IMAGE_ID=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_NAME }}" >> $GITHUB_OUTPUT
     outputs:
-      image-id: ${{ steps.create-output.outputs.image-id }}
+      image-id: ${{ steps.create-output.outputs.IMAGE_ID }}
   deploy:
     needs: build
     name: 'continuous-deployment'
