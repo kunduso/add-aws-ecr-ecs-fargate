@@ -83,7 +83,7 @@ jobs:
       if: github.event_name != 'pull_request'
     - name: Create output file
       id: create-output
-      run: echo "IMAGE_ID=$REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+      run: echo "IMAGE_ID=$REGISTRY/$REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
     outputs:
       image-id: ${{ steps.create-output.outputs.image-id }}
   deploy:
@@ -106,6 +106,6 @@ jobs:
         #working-directory: ./app
     steps:
     - name: Print Image Tag
-      env:
-        IMAGE_ID: ${{ needs.build.outputs.image-id }}
+      # env:
+      #   IMAGE_ID: ${{ needs.build.outputs.image-id }}
       run: echo "Tag Name for the Image ${{ env.IMAGE_ID }}"
