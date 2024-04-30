@@ -83,6 +83,10 @@ jobs:
       if: github.event_name != 'pull_request'
     - name: Create output file
       id: create-output
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.TAG_NAME }}
       run: echo "IMAGE_ID=$REGISTRY/$REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
     outputs:
       image-id: ${{ steps.create-output.outputs.image-id }}
