@@ -87,7 +87,7 @@ jobs:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: ${{ env.ECR_REPOSITORY }}
         IMAGE_TAG: ${{ env.TAG_NAME }}
-      run: echo "IMAGE_ID=$REGISTRY/$REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
+      run: echo "IMAGE_ID=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_NAME }}" >> $GITHUB_OUTPUT
     outputs:
       image-id: ${{ steps.create-output.outputs.image-id }}
   deploy:
