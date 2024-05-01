@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ecs_task_role" {
-  name = "app-5-task-role"
+  name = "${var.name}-task-role"
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -26,7 +26,7 @@ resource "aws_iam_role" "ecs_task_role" {
   })
 }
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "app-5-task-execution-role"
+  name = "${var.name}-task-execution-role"
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
