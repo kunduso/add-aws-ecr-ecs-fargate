@@ -1,5 +1,8 @@
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
 resource "aws_lb" "app_lb" {
+  #checkov:skip=CKV_AWS_91: Access logging is disabled since this is non-prod.
+  #checkov:skip=CKV2_AWS_20: This is disabled since this is non-prod.
+  #checkov:skip=CKV2_AWS_28: This is disabled since this is non-prod.
   name                       = var.name
   load_balancer_type         = "application"
   subnets                    = [for subnet in aws_subnet.public : subnet.id]
@@ -25,6 +28,8 @@ resource "aws_lb_target_group" "target_group" {
 
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 resource "aws_alb_listener" "listener" {
+  #checkov:skip=CKV_AWS_2: This is disabled since this is non-prod.
+  #checkov:skip=CKV_AWS_103: This is disabled since this is non-prod.
   load_balancer_arn = aws_lb.app_lb.id
   port              = 8080
   protocol          = "HTTP"
