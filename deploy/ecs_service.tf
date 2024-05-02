@@ -1,19 +1,19 @@
 
-resource "aws_ecs_service" "mongo" {
+resource "aws_ecs_service" "service" {
   name                 = "web-app"
-  cluster              = aws_ecs_cluster.app5.id
+  cluster              = local.infra_output["cluster_id"]
   task_definition      = aws_ecs_task_definition.web_app.arn
   desired_count        = 2
   force_new_deployment = true
   load_balancer {
-    target_group_arn = aws_lb_target_group.tg_blue.arn
+    target_group_arn = local.infra_output["aws_lb_target_group"]
     container_name   = "first"
     container_port   = "8080" # Application Port
   }
   launch_type = "FARGATE"
   network_configuration {
-    security_groups  = [aws_security_group.web-pub-sg.id]
-    subnets          = [for subnet in aws_subnet.public : subnet.id]
+    security_groups  = local.infra_output["security_group_id"]
+    subnets          = local.infra_output["subnet_ids"]
     assign_public_ip = false
   }
   lifecycle {
