@@ -5,11 +5,13 @@ on:
     branches: [ '*' ]
     paths:
       - 'app/**'
+      - 'deploy/**'
       - '.github/workflows/app-ci-cd.yml'
   pull_request:
     branches: ["main"]
     paths:
       - 'app/**'
+      - 'deploy/**'
       - '.github/workflows/app-ci-cd.yml'
 env:
   AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
@@ -174,18 +176,19 @@ jobs:
     - name: Terraform Format
       id: fmt
       run: terraform fmt -check
-    # # Checks that all Terraform configuration files are correctly written
-    # - name: Terraform Validate
-    #   id: validate
-    #   run: terraform validate -no-color
-    # # Generates an execution plan for Terraform
-    # - name: Terraform Plan
-    #   id: plan
-    #   if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
-    #   run: |
-    #     terraform plan -no-color -input=false \
-    #     -out=TFplan.JSON
-    #   continue-on-error: true
+    # Checks that all Terraform configuration files are correctly written
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      id: plan
+      if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
+      run: |
+        terraform plan -no-color -input=false \
+        -var="image_tag=${{ env.IMAGE_ID }}"
+        -out=TFplan.JSON
+      continue-on-error: true
 
     # # Generate an Infracost diff and save it to a JSON file.
     # - name: Generate Infracost diff
