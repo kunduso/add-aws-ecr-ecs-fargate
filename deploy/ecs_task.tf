@@ -28,8 +28,8 @@ resource "aws_ecs_task_definition" "web_app" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = data.aws_cloudwatch_log_group.app5.name
-          awslogs-region        = var.region #"us-east-2"
+          awslogs-group         = local.infra_output["cloud_watch_log_group_name"] #data.aws_cloudwatch_log_group.app5.name
+          awslogs-region        = var.region                                       #"us-east-2"
           awslogs-stream-prefix = "ecs"
         }
       }
