@@ -4,7 +4,7 @@ resource "aws_ecr_repository" "image_repo" {
   image_tag_mutability = "IMMUTABLE"
   encryption_configuration {
     encryption_type = "KMS"
-    kms_key         = aws_kms_key.app_4_key.arn
+    kms_key         = aws_kms_key.custom_kms_key.arn
   }
 
   image_scanning_configuration {
