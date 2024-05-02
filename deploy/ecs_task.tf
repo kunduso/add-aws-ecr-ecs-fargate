@@ -1,7 +1,7 @@
 resource "aws_ecs_task_definition" "web_app" {
   family                   = "web_app"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn #"arn:aws:iam::743794601996:role/ecsTaskExecutionRole"
-  task_role_arn            = aws_iam_role.ecs_task_role.arn #"arn:aws:iam::743794601996:role/ecsTaskExecutionRole"
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_task_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "1024"
@@ -14,7 +14,7 @@ resource "aws_ecs_task_definition" "web_app" {
   container_definitions = jsonencode([
     {
       name      = "first"
-      image     = "743794601996.dkr.ecr.us-east-2.amazonaws.com/app-one:feb-13-9-35"
+      image     = var.image_tag
       memory    = 512
       essential = true
       portMappings = [
@@ -25,12 +25,11 @@ resource "aws_ecs_task_definition" "web_app" {
           appProtocol   = "http"
         }
       ]
-      "environment" : jsondecode(local.container_env_variables)
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = aws_cloudwatch_log_group.app5.name
-          awslogs-region        = "us-east-2"
+          awslogs-group         = data.aws_cloudwatch_log_group.app5.name
+          awslogs-region        = var.region #"us-east-2"
           awslogs-stream-prefix = "ecs"
         }
       }
