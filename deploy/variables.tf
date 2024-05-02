@@ -21,7 +21,7 @@ variable "secret_key" {
 variable "name" {
   description = "The name of the application."
   type        = string
-  default     = "app-4"
+  default     = "app-6"
 }
 variable "image_tag" {
   description = "The name of the Docker image that gets created in the first job and is shared with the deploy job."
