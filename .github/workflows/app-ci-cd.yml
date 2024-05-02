@@ -13,7 +13,7 @@ on:
       - '.github/workflows/app-ci-cd.yml'
 env:
   AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: app-4
+  ECR_REPOSITORY: app-6
 permissions: read-all
 jobs:
   build:
