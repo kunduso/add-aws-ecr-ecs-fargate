@@ -6,10 +6,12 @@ on:
     branches: [ '*' ]
     paths:
       - 'infra/**'
+      - '.github/workflows/terraform.yml'
   pull_request:
     branches: ["main"]
     paths:
       - 'infra/**'
+      - '.github/workflows/terraform.yml'
 env:
   AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
 permissions: read-all
