@@ -95,7 +95,6 @@ jobs:
   deploy:
     needs: build
     name: 'continuous-deployment'
-    #if: github.branch == 'main'
     runs-on: ubuntu-latest
     environment: development
     env:
@@ -111,14 +110,11 @@ jobs:
         shell: bash
         working-directory: ./deploy
     steps:
-    - name: Print Image Tag
-      # env:
-      #   IMAGE_ID: ${{ needs.build.outputs.image-id }}
-      run: echo "Tag Name for the Image ${{ env.IMAGE_ID }}"
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
-
+    - name: Print Image Tag
+      run: echo "Tag Name for the Image ${{ env.IMAGE_ID }}"
     - name: Configure AWS Credentials Action For GitHub Actions
       uses: aws-actions/configure-aws-credentials@v1-node16
       with:
