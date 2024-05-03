@@ -12,7 +12,7 @@ resource "aws_ecs_service" "service" {
   }
   launch_type = "FARGATE"
   network_configuration {
-    security_groups  = local.infra_output["security_group_id"]
+    security_groups  = [local.infra_output["security_group_id"]]
     subnets          = local.infra_output["subnet_ids"]
     assign_public_ip = false
   }
