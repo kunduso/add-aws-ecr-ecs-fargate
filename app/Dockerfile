@@ -15,8 +15,19 @@ COPY ./app /usr/src/app
 # Set working directory context
 WORKDIR /usr/src/app
 
+
 # Install dependencies from packages.json
-RUN npm install -g npm@10.6.0
+RUN npm install
+
+# Add health check
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -f http://localhost:8080 || exit 1
+
+# Create a new user
+RUN adduser -D myuser
+
+# Switch to the new user
+USER myuser
+
 
 # Command for container to execute
 ENTRYPOINT [ "node", "app.js" ]
