@@ -1,6 +1,6 @@
 
 resource "aws_ecs_service" "service" {
-  name                 = "web-app"
+  name                 = var.name
   cluster              = local.infra_output["cluster_id"]
   task_definition      = aws_ecs_task_definition.web_app.arn
   desired_count        = 2
