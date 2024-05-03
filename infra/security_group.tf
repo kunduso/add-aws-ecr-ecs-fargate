@@ -32,7 +32,7 @@ resource "aws_security_group_rule" "egress_load_balancer" {
   security_group_id = aws_security_group.custom_sg.id
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
-resource "aws_security_group" "endpoint-sg" {
+resource "aws_security_group" "endpoint_sg" {
   name        = "endpoint_access"
   description = "allow inbound traffic"
   vpc_id      = aws_vpc.this.id
@@ -48,5 +48,5 @@ resource "aws_security_group_rule" "ingress_vpc_endpoint" {
   to_port           = 443
   protocol          = "tcp"
   cidr_blocks       = [aws_vpc.this.cidr_block]
-  security_group_id = aws_security_group.custom_sg.id
+  security_group_id = aws_security_group.endpoint_sg.id
 }
