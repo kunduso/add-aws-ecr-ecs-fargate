@@ -15,8 +15,13 @@ COPY ./app /usr/src/app
 # Set working directory context
 WORKDIR /usr/src/app
 
+
 # Install dependencies from packages.json
 RUN npm install -g npm@10.6.0
+# Create a new user
+RUN adduser -D myuser
 
+# Switch to the new user
+USER myuser
 # Command for container to execute
 ENTRYPOINT [ "node", "app.js" ]
