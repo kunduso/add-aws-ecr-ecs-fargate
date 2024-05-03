@@ -37,7 +37,7 @@ resource "aws_security_group" "endpoint_sg" {
   description = "allow inbound traffic"
   vpc_id      = aws_vpc.this.id
   tags = {
-    "Name" = "app-5-endpoint-sg"
+    "Name" = "${var.name}-endpoint_sg"
   }
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
