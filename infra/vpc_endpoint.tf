@@ -5,7 +5,7 @@ resource "aws_vpc_endpoint" "ecr" {
   service_name        = "com.amazonaws.${var.region}.ecr.dkr"
   vpc_endpoint_type   = "Interface"
   subnet_ids          = [for subnet in aws_subnet.private : subnet.id]
-  security_group_ids  = [aws_security_group.endpoint-sg.id]
+  security_group_ids  = [aws_security_group.endpoint_sg.id]
   private_dns_enabled = true
   tags = {
     "Name" = "${var.name}-ecr"
@@ -17,7 +17,7 @@ resource "aws_vpc_endpoint" "ecr_api" {
   service_name        = "com.amazonaws.${var.region}.ecr.api"
   vpc_endpoint_type   = "Interface"
   subnet_ids          = [for subnet in aws_subnet.private : subnet.id]
-  security_group_ids  = [aws_security_group.endpoint-sg.id]
+  security_group_ids  = [aws_security_group.endpoint_sg.id]
   private_dns_enabled = true
   tags = {
     "Name" = "${var.name}-ecr-api"
@@ -29,7 +29,7 @@ resource "aws_vpc_endpoint" "cloudwatch" {
   service_name        = "com.amazonaws.${var.region}.logs"
   vpc_endpoint_type   = "Interface"
   subnet_ids          = [for subnet in aws_subnet.private : subnet.id]
-  security_group_ids  = [aws_security_group.endpoint-sg.id]
+  security_group_ids  = [aws_security_group.endpoint_sg.id]
   private_dns_enabled = true
   tags = {
     "Name" = "${var.name}-logs"
