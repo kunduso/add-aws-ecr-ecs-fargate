@@ -13,10 +13,10 @@ resource "aws_ecs_task_definition" "web_app" {
 
   container_definitions = jsonencode([
     {
-      name      = "first"
-      image     = var.image_tag
-      memory    = 512
-      essential = true
+      name                   = "first"
+      image                  = var.image_tag
+      memory                 = 512
+      essential              = true
       readonlyRootFilesystem = true
       portMappings = [
         {
