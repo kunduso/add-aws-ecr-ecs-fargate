@@ -35,15 +35,6 @@ resource "aws_ecs_task_definition" "web_app" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      healthCheck = {
-        "command" : [
-          ""
-        ],
-        "interval" : 0,
-        "timeout" : 0,
-        "retries" : 0,
-        "startPeriod" : 0
-      }
     }
   ])
 }
