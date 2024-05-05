@@ -15,7 +15,6 @@ COPY ./app /usr/src/app
 # Set working directory context
 WORKDIR /usr/src/app
 
-
 # Install dependencies from packages.json
 RUN npm install
 
