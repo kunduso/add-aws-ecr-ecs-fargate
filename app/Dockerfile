@@ -18,6 +18,8 @@ WORKDIR /usr/src/app
 # Install dependencies from packages.json
 RUN npm install
 
+# Install curl for healthcheck
+RUN apk --no-cache add curl
 # Add health check
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -f http://localhost:8080 || exit 1
 
