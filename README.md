@@ -4,9 +4,22 @@
 
 
 ## Introduction
-This repository contains the [Terraform code](./infra) to provision the necessary infrastructure components and the [Docker application](./app/) for running containerized applications on Amazon Elastic Container Service (ECS). 
+This repository contains code and resources related to various use cases involving Amazon Elastic Container Service (ECS), Docker, and infrastructure provisioning using Terraform and GitHub Actions.
+## Table of Contents
+- [Use Case 1: Create Infrastructure for Amazon ECS](#use-case-1-create-infrastructure-for-amazon-ecs)
+- [Use Case 2: Build, Scan, and Push Docker Images to Amazon ECR](#use-case-2-build-scan-and-push-docker-images-to-amazon-ecr)
+- [Use Case 3: Deploy to Amazon ECS Services](#use-case-3-deploy-to-amazon-ecs-services)
+- [Prerequisites](#prerequisites)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+![Image](https://skdevops.files.wordpress.com/2024/05/92-image-0-2.png)
+## Use Case 1: Create Infrastructure for Amazon ECS
+
+This use case covers the creation of all necessary infrastructure components required to host an Amazon Elastic Container Service (ECS) using Terraform and GitHub Actions. 
 ![Image](https://skdevops.files.wordpress.com/2024/04/90-image-1-2.png)
-<br />The infrastructure components include:
+The components include:
 - **Amazon Virtual Private Cloud (VPC)**: A logically isolated virtual network where your resources are deployed.
 - **Security Groups**: Virtual firewalls that control inbound and outbound traffic to your resources.
 - **VPC Endpoints**: Gateways that enable secure and private connections between your VPC and AWS services.
@@ -16,28 +29,49 @@ This repository contains the [Terraform code](./infra) to provision the necessar
 - **AWS Key Management Service (KMS) Key**: A secure and managed key for encrypting sensitive data.
 - **CloudWatch Log groups**: A monitoring service that collects and stores logs from your containerized applications.
 
+The [Terraform configurations](./infra/) and [GitHub Actions workflow](./.github/workflows/terraform.yml) automate the provisioning and configuration of these components, ensuring a consistent and repeatable deployment process. Here is a detailed note explaining the same - [create-infrastructure-to-host-an-amazon-ecs-service-using-terraform.](http://skundunotes.com/2024/04/10/create-infrastructure-to-host-an-amazon-ecs-service-using-terraform/)
+## Use Case 2: Build, Scan, and Push Docker Images to Amazon ECR
+
+This use case demonstrates how to build, scan, and push Docker images to Amazon Elastic Container Registry (ECR) using GitHub Actions.
+![Image](https://skdevops.files.wordpress.com/2024/04/91-image-1.png)
+The steps involved include:
+
+1. Building a Docker image from a Dockerfile
+2. Scanning the Docker image for vulnerabilities
+3. Pushing the Docker image to Amazon ECR
+
+The provided [GitHub Actions workflows](./.github/workflows/app-ci-cd.yml) automate the entire process, enabling continuous integration and delivery of Docker images to Amazon ECR. Here is a detailed note explaining the same - [push-docker-image-to-amazon-ecr-using-github-actions.](http://skundunotes.com/2024/04/28/push-docker-image-to-amazon-ecr-using-github-actions/)
+
+## Use Case 3: Deploy to Amazon ECS Services
+
+This use case focuses on deploying Amazon ECS services using Terraform and GitHub Actions. It includes the following steps:
+
+1. Provisioning the necessary infrastructure components (as covered in Use Case 1)
+2. Creating the ECS execution role and the ECS task role
+3. Creating the ECS task definition
+4. Creating an ECS Service
+5. Configuring Load Balancing
+6. Deploying the Docker image to the ECS Service (using the image pushed in Use Case 2)
+
+The [Terraform configurations](./deploy/) and [GitHub Actions workflows](./.github/workflows/app-ci-cd.yml) handle the deployment and management of the ECS services, ensuring a streamlined and automated process. Here is a detailed note explaining the same - [continuous-deployment-of-amazon-ecs-service-using-terraform-and-github-actions.](http://skundunotes.com/2024/05/06/continuous-deployment-of-amazon-ecs-service-using-terraform-and-github-actions/)
+
+
 Additionally, this repository includes:
+</br> - a [Checkov pipeline](./.github/workflows/code-scan.yml) for scanning the Terraform code for security and compliance issues.
 
-- **Dockerfile**: A [file](./app/Dockerfile) containing instructions for building a Docker image for the application.
-- **GitHub Actions Workflows**:
-    - A [CI/CD pipeline defined in a YAML file](./.github/workflows/app-ci-cd.yml) that automatically builds the Docker image, pushes it to the ECR registry, and deploys the updated service to the ECS cluster.
-    - A [separate workflow](./.github/workflows/terraform.yml) that uses Terraform to provision and manage the ECS infrastructure components.
-    - A [Checkov pipeline](./.github/workflows/code-scan.yml) for scanning the Terraform code for security and compliance issues.
+The entire setup and deployment process is automated via the GitHub Actions pipelines, eliminating the need for manual steps.
 
-The entire setup and deployment process is automated via the GitHub Actions pipelines, eliminating the need for manual steps. If you are interested in learning about the provisioning process of the AWS cloud infrasctructure components using Terraform and GitHub Actions, please check out [create-infrastructure-to-host-an-amazon-ecs-service-using-terraform.](http://skundunotes.com/2024/04/10/create-infrastructure-to-host-an-amazon-ecs-service-using-terraform/)
 ## Prerequisites
-For this code to function without errors, I created an OpenID connect identity provider in Amazon Identity and Access Management that has a trust relationship with this GitHub repository. You can read about it [here](https://skundunotes.com/2023/02/28/securely-integrate-aws-credentials-with-github-actions-using-openid-connect/) to get a detailed explanation with steps.
-<br />I stored the `ARN` of the `IAM Role` as a GitHub secret which is referred in the [`terraform.yml`]() file.
-<br />As part of the **Infracost** integration, I also created a `INFRACOST_API_KEY` and stored that as a GitHub Actions secret. I also managed the cost estimate process using a GitHub Actions variable `INFRACOST_SCAN_TYPE` where the value is either `hcl_code` or `tf_plan`, depending on the type of scan desired.
+For this code to function without errors, create an OpenID connect identity provider in Amazon Identity and Access Management that has a trust relationship with your GitHub repository. You can read about it [here](https://skundunotes.com/2023/02/28/securely-integrate-aws-credentials-with-github-actions-using-openid-connect/) to get a detailed explanation with steps.
+<br />Store the `ARN` of the `IAM Role` as a GitHub secret which is referred in the `terraform.yml` and `app-cd-cd.yml` file.
+<br />For the **Infracost** integration, create an `INFRACOST_API_KEY` and store that as a GitHub Actions secret. You can manage the cost estimate process using a GitHub Actions variable `INFRACOST_SCAN_TYPE` where the value is either `hcl_code` or `tf_plan`, depending on the type of scan desired.
 <br />You can read about that at - [integrate-Infracost-with-GitHub-Actions.](http://skundunotes.com/2023/07/17/estimate-aws-cloud-resource-cost-with-infracost-terraform-and-github-actions/)
 ## Usage
 Ensure that the policy/ies attached to the IAM role whose credentials are being used in this repository has permission to create and manage all the resources that are included in this repository and push the Docker image to Amazon ECR repository.
-<br />
-<br />Review the code including the [`terraform.yml`](./.github/workflows/terraform.yml) to understand the steps in the GitHub Actions pipeline. Also review the `terraform` code to understand all the concepts associated with creating an AWS VPC, subnets, security groups, internet gateway, VPC endpoints, route table, and route table association, Amazon ECR, ECS Cluster, load balancer, target groups, KMS key and CloudWatch log groups.
-<br />If you want to check the pipeline logs, click on the **Build Badge** (terrform-infra-provisioning) above the image in this ReadMe.
+
+<br />If you want to check the pipeline logs, click on the **Build Badges** above the image in this ReadMe.
 
 ## Contributing
-
 If you find any issues or have suggestions for improvement, feel free to open an issue or submit a pull request. Contributions are always welcome!
 
 ## License
