@@ -8,7 +8,7 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static('static'));
 app.use(morgan('combined'));
-
+app.use('/healthcheck', require('./route/healthcheck'));
 var port = process.env.PORT || 8080;
 var message = process.env.MESSAGE || "Hello from the Docker container!";
 
