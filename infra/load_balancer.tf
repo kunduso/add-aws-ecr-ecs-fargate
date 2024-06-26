@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "target_group" {
   vpc_id      = aws_vpc.this.id
   health_check {
     matcher = "200,301,302,404"
-    path    = "/"
+    path    = "/healthcheck"
   }
 }
 
