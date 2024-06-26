@@ -1,8 +1,9 @@
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter
 resource "aws_ssm_parameter" "infra_output" {
-  name   = "/${var.name}/output"
-  type   = "SecureString"
-  key_id = aws_kms_key.custom_kms_key.id
+  name        = "/${var.name}/output"
+  description = "Infrastructure layer resources."
+  type        = "SecureString"
+  key_id      = aws_kms_key.custom_kms_key.id
   value = jsonencode({
     "subnet_ids" : [for subnet in aws_subnet.private : subnet.id],
     "security_group_id" : "${aws_security_group.custom_sg.id}",
