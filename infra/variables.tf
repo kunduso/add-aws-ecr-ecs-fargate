@@ -43,3 +43,9 @@ variable "availability_zone" {
   type        = list(any)
   default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
 }
+
+variable "ecs_secret" {
+  description = "The secret accessed from the AWS Fargate task containers."
+  type        = string
+  sensitive   = true
+}
