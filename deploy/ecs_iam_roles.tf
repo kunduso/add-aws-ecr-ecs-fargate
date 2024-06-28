@@ -51,3 +51,27 @@ resource "aws_iam_role_policy_attachment" "custom" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+
+resource "aws_iam_policy" "secrets_manager_read_policy" {
+  name        = "${var.name}-ecs-fargate-secrets-manager-access"
+  description = "IAM policy for ECS Fargate to access Secrets Manager secrets"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = [local.infra_output["secret_arn"]]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "attach_policy" {
+  name       = "${var.name}-ecs-fargate-secrets-manager-attachment"
+  roles      = [aws_iam_role.ecs_task_role.name]
+  policy_arn = aws_iam_policy.secrets_manager_read_policy.arn
+}
