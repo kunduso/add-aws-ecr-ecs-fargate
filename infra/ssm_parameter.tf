@@ -10,5 +10,6 @@ resource "aws_ssm_parameter" "infra_output" {
     "aws_lb_target_group" : "${aws_lb_target_group.target_group.arn}",
     "cluster_id" : "${aws_ecs_cluster.app_cluster.id}",
     "cloud_watch_log_group_name" : "${aws_cloudwatch_log_group.logs.name}"
+    "secret_arn" : "${aws_secretsmanager_secret.ecs_secret.arn}"
   })
 }
