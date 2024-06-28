@@ -30,8 +30,8 @@ resource "aws_ecs_task_definition" "web_app" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = local.infra_output["cloud_watch_log_group_name"] #data.aws_cloudwatch_log_group.app5.name
-          awslogs-region        = var.region                                       #"us-east-2"
+          awslogs-group         = local.infra_output["cloud_watch_log_group_name"]
+          awslogs-region        = var.region
           awslogs-stream-prefix = "ecs"
         }
       }
@@ -42,6 +42,12 @@ resource "aws_ecs_task_definition" "web_app" {
         timeout     = 5
         startPeriod = 10
       }
+      secrets = [
+        {
+          name      = "ecs_secret"
+          valueFrom = local.infra_output["secret_arn"]
+        }
+      ]
     }
   ])
 }
