@@ -42,6 +42,12 @@ resource "aws_ecs_task_definition" "web_app" {
         timeout     = 5
         startPeriod = 10
       }
+      environments = [
+        {
+          name  = "AWS_REGION",
+          value = var.region
+        }
+      ]
       secrets = [
         {
           name      = "ecs_secret"
