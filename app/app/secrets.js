@@ -1,10 +1,12 @@
 const AWS = require('aws-sdk');
 
-// Configure AWS SDK with your region
-AWS.config.update({ region: 'your-aws-region' });
-
 // Function to retrieve secret value from AWS Secrets Manager
 async function getSecretValue(secretName) {
+    const region = process.env.AWS_REGION; // Retrieve AWS region from environment variable
+
+    // Configure AWS SDK with the retrieved region
+    AWS.config.update({ region });
+
     const client = new AWS.SecretsManager();
 
     try {
