@@ -90,7 +90,7 @@ resource "aws_iam_policy" "kms_decrypt_policy" {
         Action = [
           "kms:Decrypt"
         ]
-        Resource = [aws_kms_key.encryption_rest.arn]
+        Resource = [local.infra_output["kms_arn"]]
       }
     ]
   })
