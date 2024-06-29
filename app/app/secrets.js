@@ -13,7 +13,13 @@ async function getSecretValue(secretName) {
         const data = await client.getSecretValue({ SecretId: secretName }).promise();
 
         if (data.SecretString) {
-            return JSON.parse(data.SecretString);
+            try {
+                // Attempt to parse as JSON
+                return JSON.parse(data.SecretString);
+            } catch (err) {
+                // If parsing as JSON fails, return the plain string value
+                return data.SecretString;
+            }
         } else {
             throw new Error("SecretString not found in AWS Secrets Manager response.");
         }
