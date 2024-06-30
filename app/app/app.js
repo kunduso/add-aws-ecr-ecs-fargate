@@ -3,49 +3,36 @@ const exphbs = require('express-handlebars');
 const app = express();
 const os = require("os");
 const morgan = require('morgan');
-const { getSecretValue, clearCache } = require('./secrets'); // Import getSecretValue and clearCache
+const { getSecretValue } = require('./secrets'); // Import getSecretValue function
 
+// Configure Express and middleware
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.use(express.static('static'));
 app.use(morgan('combined'));
-app.use('/healthcheck', require('./route/healthcheck'));
 
 const port = process.env.PORT || 8080;
 const message = process.env.MESSAGE || "Hello from the Docker container!";
 const secretName = 'ecs_secret'; // Name of your AWS Secrets Manager secret
 
-// Endpoint to force reload of secrets
-app.get('/reload-secrets', async (req, res) => {
+// Retrieve secret value asynchronously
+app.get('/', async (req, res) => {
     try {
-        clearCache(); // Clear cached secret value
-        const secretValue = await getSecretValue(secretName); // Retrieve new secret value
-        console.log("New secret value retrieved:", secretValue); // Log the retrieved secret value
-        res.status(200).json({ message: 'Secrets reloaded successfully', secretValue });
+        const secretValue = await getSecretValue(secretName); // Retrieve secret value from AWS Secrets Manager
+        res.render('home', {
+            message: message,
+            hostName: os.hostname(),
+            secretValue: secretValue // Pass the secret value to the view
+        });
     } catch (err) {
-        console.error("Failed to reload secrets:", err);
-        res.status(500).json({ error: 'Failed to reload secrets' });
+        console.error("Failed to retrieve secret:", err);
+        res.status(500).send("Failed to retrieve secret from AWS Secrets Manager");
     }
 });
 
-// Retrieve secret value asynchronously
-getSecretValue(secretName)
-    .then(secretValue => {
-        // Start the server after retrieving the secret value
-        app.get('/', function (req, res) {
-            res.render('home', {
-                message: message,
-                hostName: os.hostname(),
-                secretValue: secretValue // Pass the secret value to the view
-            });
-        });
-        app.listen(port, function () {
-            console.log("Listening on: http://%s:%s", os.hostname(), port);
-        });
-    })
-    .catch(err => {
-        console.error("Failed to retrieve secret:", err);
-        process.exit(1); // Exit the application if secret retrieval fails
-    });
+// Start the server
+app.listen(port, () => {
+    console.log(`Listening on: http://${os.hostname()}:${port}`);
+});
 
 module.exports = app;
