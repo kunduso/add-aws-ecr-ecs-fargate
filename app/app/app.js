@@ -1,18 +1,9 @@
 const express = require('express');
-const exphbs  = require('express-handlebars');
+const exphbs = require('express-handlebars');
 const app = express();
 const os = require("os");
 const morgan = require('morgan');
-
-// Function to clear require cache and reload secrets.js
-function clearSecretsCache() {
-    delete require.cache[require.resolve('./secrets')];
-    const { getSecretValue } = require('./secrets');
-    return getSecretValue; // Return the refreshed function
-}
-
-// Initial require of secrets.js
-let getSecretValue = clearSecretsCache();
+const { getSecretValue, clearCache } = require('./secrets'); // Import getSecretValue and clearCache
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
@@ -27,8 +18,9 @@ const secretName = 'ecs_secret'; // Name of your AWS Secrets Manager secret
 // Endpoint to force reload of secrets
 app.get('/reload-secrets', async (req, res) => {
     try {
-        getSecretValue = clearSecretsCache(); // Reload secrets
+        clearCache(); // Clear cached secret value
         const secretValue = await getSecretValue(secretName); // Retrieve new secret value
+        console.log("New secret value retrieved:", secretValue); // Log the retrieved secret value
         res.status(200).json({ message: 'Secrets reloaded successfully', secretValue });
     } catch (err) {
         console.error("Failed to reload secrets:", err);
