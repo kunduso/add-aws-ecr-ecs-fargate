@@ -25,7 +25,6 @@ resource "aws_iam_role" "ecs_task_role" {
     ]
   })
 }
-
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "${var.name}-task-execution-role"
@@ -55,7 +54,7 @@ resource "aws_iam_role_policy_attachment" "custom" {
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
 resource "aws_iam_policy" "secrets_manager_read_policy" {
   name        = "${var.name}-ecs-fargate-secrets-manager-access"
-  description = "IAM policy for ECS Fargate to access Secrets Manager secrets"
+  description = "IAM policy for ECS Fargate to access Secrets Manager secrets and decrypt it."
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -66,25 +65,7 @@ resource "aws_iam_policy" "secrets_manager_read_policy" {
           "secretsmanager:GetSecretValue"
         ]
         Resource = [local.infra_output["secret_arn"]]
-      }
-    ]
-  })
-}
-#Attach role to policy
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
-resource "aws_iam_role_policy_attachment" "attach_secrets_read_policy" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = aws_iam_policy.secrets_manager_read_policy.arn
-}
-
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
-resource "aws_iam_policy" "kms_decrypt_policy" {
-  name        = "${var.name}-kms-decrypt"
-  description = "IAM policy ro decrypt the Secrets Manager secrets"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
+      },
       {
         Effect = "Allow",
         Action = [
@@ -95,10 +76,15 @@ resource "aws_iam_policy" "kms_decrypt_policy" {
     ]
   })
 }
-
 #Attach role to policy
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
 resource "aws_iam_role_policy_attachment" "attache_kms_decrypt_policy" {
   role       = aws_iam_role.ecs_task_role.name
-  policy_arn = aws_iam_policy.kms_decrypt_policy.arn
+  policy_arn = aws_iam_policy.secrets_manager_read_policy.arn
+}
+#Attach role to policy
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
+resource "aws_iam_role_policy_attachment" "attach_secrets_read_policy" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.secrets_manager_read_policy.arn
 }
