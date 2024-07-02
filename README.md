@@ -10,12 +10,13 @@ This repository contains code and resources related to various use cases involvi
 - [Use Case 2: Build, Scan, and Push Docker Images to Amazon ECR](#use-case-2-build-scan-and-push-docker-images-to-amazon-ecr)
 - [Use Case 3: Deploy to Amazon ECS Services](#use-case-3-deploy-to-amazon-ecs-services)
 - [Use Case 4: Enable Health Checks and CloudWatch Logs for AWS Fargate Tasks](#use-case-4-enable-health-checks-and-cloudwatch-logs-for-aws-fargate-tasks)
+- [Use Case 5: Protecting Credentials and Variables in AWS Fargate Containers using AWS Secrets Manager](#use-case-5-protecting-credentials-and-variables-in-aws-fargate-containers-using-aws-secrets-manager)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
 
-![Image](https://skdevops.files.wordpress.com/2024/05/92-image-0-2.png)
+
 ## Use Case 1: Create Infrastructure for Amazon ECS
 
 This use case covers the creation of all necessary infrastructure components required to host an Amazon Elastic Container Service (ECS) using Terraform and GitHub Actions. 
@@ -29,6 +30,7 @@ The components include:
 - **Application Load Balancer (ALB)**: A load balancer that distributes incoming traffic across your ECS tasks.
 - **AWS Key Management Service (KMS) Key**: A secure and managed key for encrypting sensitive data.
 - **CloudWatch Log groups**: A monitoring service that collects and stores logs from your containerized applications.
+- **AWS Secrets Manager Secret**: A cloud native solution to securely manage credentials. This resource was added into the repository as part of use case #5.
 
 The [Terraform configurations](./infra/) and [GitHub Actions workflow](./.github/workflows/terraform.yml) automate the provisioning and configuration of these components, ensuring a consistent and repeatable deployment process. Here is a detailed note explaining the same - [create-infrastructure-to-host-an-amazon-ecs-service-using-terraform.](http://skundunotes.com/2024/04/10/create-infrastructure-to-host-an-amazon-ecs-service-using-terraform/)
 ## Use Case 2: Build, Scan, and Push Docker Images to Amazon ECR
@@ -44,7 +46,7 @@ The steps involved include:
 The provided [GitHub Actions workflows](./.github/workflows/app-ci-cd.yml) automate the entire process, enabling continuous integration and delivery of Docker images to Amazon ECR. Here is a detailed note explaining the same - [push-docker-image-to-amazon-ecr-using-github-actions.](http://skundunotes.com/2024/04/28/push-docker-image-to-amazon-ecr-using-github-actions/)
 
 ## Use Case 3: Deploy to Amazon ECS Services
-
+![Image](https://skdevops.files.wordpress.com/2024/05/92-image-0-2.png)
 This use case focuses on deploying Amazon ECS services using Terraform and GitHub Actions. It includes the following steps:
 
 1. Provisioning the necessary infrastructure components (as covered in Use Case 1)
@@ -58,10 +60,24 @@ The [Terraform configurations](./deploy/) and [GitHub Actions workflows](./.gith
 
 ## Use Case 4: Enable Health Checks and CloudWatch Logs for AWS Fargate Tasks
 ![Image](https://skdevops.files.wordpress.com/2024/06/94-image-0.png)
-</br> In AWS Fargate, ensuring the health and monitoring of your tasks is crucial for maintaining reliability and performance. By enabling health checks, you can automatically verify the status of your Fargate tasks, allowing AWS to replace any instances that fail these checks, thereby ensuring seamless operation. Additionally, integrating CloudWatch Logs provides real-time monitoring and centralized logging, capturing logs from each Fargate task and enabling detailed analysis, troubleshooting, and auditing. Together, these features empower you to maintain high availability and streamline operational management within your AWS Fargate environment.
+</br> In AWS Fargate, ensuring the health and monitoring of your tasks is crucial for maintaining reliability and performance. By enabling health checks, you can automatically verify the status of your Fargate tasks, allowing AWS to replace any instances that fail these checks, thereby ensuring seamless operation. Additionally, integrating CloudWatch Logs provides real-time monitoring and centralized logging, capturing logs from each Fargate task and enabling detailed analysis, troubleshooting, and auditing. Together, these features empower you to maintain high availability and streamline operational management within your AWS Fargate environment. This use case has two steps:
+
+1. Add HealthCheck to the AWS Fargate task
+2. Monitor logs with Amazon CloudWatch
 
 </br> Here is a detailed note on how to enable that in AWS Fargate -[enabling-health-checks-and-cloudwatch-logs-for-aws-fargate-tasks.](https://skundunotes.com/2024/06/27/enabling-health-checks-and-cloudwatch-logs-for-aws-fargate-tasks/)
 
+## Use Case 5: Protecting Credentials and Variables in AWS Fargate Containers using AWS Secrets Manager
+![Image](https://skdevops.files.wordpress.com/2024/06/96-image-0.png)
+This use case focuses on how to store sensitive variables in the AWS Secrets Manager secret and securely access them from an AWS Fargate task container. This use case has five steps:
+
+1. Store a sensitive variable as a secret in AWS Secrets Manager
+2. Create a VPC Endpoint to access AWS Secrets Manager
+3. Update the IAM policy attached to the task role to access the secret
+4. Update the Amazon ECS task definition to access the secret
+5. Update the Node.js application to access and display the secret
+
+For more details, please choose - [protecting-credentials-and-variables-in-aws-fargate-containers-using-aws-secrets-manager.](https://skundunotes.com/2024/07/02/protecting-credentials-and-variables-in-aws-fargate-containers-using-aws-secrets-manager/)
 
 Additionally, this repository includes:
 </br> - [Checkov pipeline](./.github/workflows/code-scan.yml) for scanning the Terraform code for security and compliance issues.
