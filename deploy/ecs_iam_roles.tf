@@ -78,13 +78,13 @@ resource "aws_iam_policy" "secrets_manager_read_policy" {
 }
 #Attach role to policy
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
-resource "aws_iam_role_policy_attachment" "attache_kms_decrypt_policy" {
+resource "aws_iam_role_policy_attachment" "attach_secrets_read_task_role" {
   role       = aws_iam_role.ecs_task_role.name
   policy_arn = aws_iam_policy.secrets_manager_read_policy.arn
 }
 #Attach role to policy
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
-resource "aws_iam_role_policy_attachment" "attach_secrets_read_policy" {
+resource "aws_iam_role_policy_attachment" "attach_secrets_read_task_execution_role" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.secrets_manager_read_policy.arn
 }
