@@ -30,6 +30,8 @@ resource "aws_security_group_rule" "egress_load_balancer" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.custom_sg.id
+  #checkov:skip=CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
+  #This is non prod and hence enabled.
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 resource "aws_security_group" "container_sg" {
@@ -39,6 +41,8 @@ resource "aws_security_group" "container_sg" {
   tags = {
     "Name" = "${var.name}-container-sg"
   }
+  #checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
+  #This security group is required in the deploy stack.
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
 resource "aws_security_group_rule" "ingress_container" {
