@@ -14,8 +14,8 @@ resource "aws_lb" "app_lb" {
 }
 
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
-resource "aws_lb_target_group" "target_group" {
-  name        = var.name
+resource "aws_lb_target_group" "blue_target_group" {
+  name        = "${var.name}-blue"
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
@@ -25,7 +25,18 @@ resource "aws_lb_target_group" "target_group" {
     path    = "/healthcheck"
   }
 }
-
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
+resource "aws_lb_target_group" "green_target_group" {
+  name        = "${var.name}-green"
+  port        = 8080
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = aws_vpc.this.id
+  health_check {
+    matcher = "200,301,302,404"
+    path    = "/healthcheck"
+  }
+}
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 resource "aws_alb_listener" "listener" {
   #checkov:skip=CKV_AWS_2: This is disabled since this is non-prod.
