@@ -42,7 +42,7 @@ resource "aws_alb_listener" "listener" {
   #checkov:skip=CKV_AWS_2: This is disabled since this is non-prod.
   #checkov:skip=CKV_AWS_103: This is disabled since this is non-prod.
   load_balancer_arn = aws_lb.app_lb.id
-  port              = 8080
+  port              = 80
   protocol          = "HTTP"
 
   default_action {
