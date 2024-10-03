@@ -23,16 +23,16 @@ resource "aws_security_group_rule" "ingress_load_balancer" {
   #checkov:skip=CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
   #This is non prod and hence enabled.
 }
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
-resource "aws_security_group_rule" "egress_load_balancer" {
-  description       = "allow traffic to reach outside the vpc"
-  type              = "egress"
-  from_port         = 0
-  to_port           = 65535
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.custom_sg.id
-}
+# #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+# resource "aws_security_group_rule" "egress_load_balancer" {
+#   description       = "allow traffic to reach outside the vpc"
+#   type              = "egress"
+#   from_port         = 0
+#   to_port           = 65535
+#   protocol          = "tcp"
+#   cidr_blocks       = ["0.0.0.0/0"]
+#   security_group_id = aws_security_group.custom_sg.id
+# }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 resource "aws_security_group" "container_sg" {
   name        = "${var.name}_container_allow_inbound_access"
@@ -61,7 +61,7 @@ resource "aws_security_group_rule" "egress_container" {
   from_port         = 0
   to_port           = 65535
   protocol          = "tcp"
-  cidr_blocks       = [aws_vpc.this.cidr_block]
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.container_sg.id
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
