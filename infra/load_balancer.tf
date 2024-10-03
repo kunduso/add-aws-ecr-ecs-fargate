@@ -24,6 +24,8 @@ resource "aws_lb_target_group" "blue_target_group" {
     matcher = "200,301,302,404"
     path    = "/healthcheck"
   }
+  #checkov:skip=CKV_AWS_378: Ensure AWS Load Balancer doesn't use HTTP protocol
+  #This is disabled since this is non-prod.
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
 resource "aws_lb_target_group" "green_target_group" {
@@ -36,6 +38,8 @@ resource "aws_lb_target_group" "green_target_group" {
     matcher = "200,301,302,404"
     path    = "/healthcheck"
   }
+  #checkov:skip=CKV_AWS_378: Ensure AWS Load Balancer doesn't use HTTP protocol
+  #This is disabled since this is non-prod.
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 resource "aws_alb_listener" "listener" {
