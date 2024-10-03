@@ -1,22 +1,22 @@
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document
 data "aws_iam_policy_document" "assume_by_codedeploy" {
   statement {
     sid     = ""
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
-
     principals {
       type        = "Service"
       identifiers = ["codedeploy.amazonaws.com"]
     }
   }
 }
-
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role
 resource "aws_iam_role" "codedeploy" {
   name               = "${var.name}-code-deploy-role"
   assume_role_policy = data.aws_iam_policy_document.assume_by_codedeploy.json
 }
 
-
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document
 data "aws_iam_policy_document" "codedeploy" {
   statement {
     sid    = "AllowLoadBalancingAndECSModifications"
@@ -76,6 +76,7 @@ data "aws_iam_policy_document" "codedeploy" {
     ]
   }
 }
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy
 resource "aws_iam_role_policy" "codedeploy" {
   role   = aws_iam_role.codedeploy.name
   policy = data.aws_iam_policy_document.codedeploy.json
