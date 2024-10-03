@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "codedeploy" {
   }
   statement {
     effect  = "Allow"
-    actions = "s3:GetObject"
+    actions = ["s3:GetObject"]
     resources = [
       "arn:aws:s3:::*/*"
     ]
