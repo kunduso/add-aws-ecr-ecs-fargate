@@ -30,7 +30,7 @@ aws --version
 
 DEPLOYMENT_INFO=$(aws deploy create-deployment \
     --application-name ${aws_codedeploy_app.application_main.name} \
-    --deployment-config-name CodeDeployDefault.OneAtATime \
+    --deployment-config-name CodeDeployDefault.ECSAllAtOnce \
     --deployment-group-name ${aws_codedeploy_deployment_group.application_main.deployment_group_name} \
     --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"${local.appspec_content}","sha256":"${local.appspec_sha256}"}}' \
     --description "Deployment from Terraform" \
