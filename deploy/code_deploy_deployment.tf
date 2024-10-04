@@ -1,7 +1,7 @@
 locals {
   # appspec file
   appspec = {
-    version = 0.0
+    version = "0.0"
     Resources = [
       {
         TargetService = {
@@ -9,8 +9,8 @@ locals {
           Properties = {
             TaskDefinition = aws_ecs_task_definition.web_app.arn
             LoadBalancerInfo = {
-              "ContainerName" = "first"
-              "ContainerPort" = 8080
+              ContainerName = first
+              ContainerPort = 8080
             }
           }
         }
