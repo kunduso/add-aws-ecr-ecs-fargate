@@ -20,6 +20,6 @@ resource "aws_ecs_service" "service" {
     type = "CODE_DEPLOY"
   }
   lifecycle {
-    ignore_changes = [ load_balancer, task_definition ]
+    ignore_changes = [load_balancer, task_definition]
   }
 }
