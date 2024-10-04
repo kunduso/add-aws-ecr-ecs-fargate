@@ -9,8 +9,8 @@ locals {
           Properties = {
             TaskDefinition = aws_ecs_task_definition.web_app.arn
             LoadBalancerInfo = {
-              ContainerName = first
-              ContainerPort = 8080
+              ContainerName = "first"
+              ContainerPort = "8080"
             }
           }
         }
