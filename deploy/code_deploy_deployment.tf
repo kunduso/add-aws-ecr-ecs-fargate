@@ -22,33 +22,36 @@ locals {
 
   # create deployment script
   script = <<EOF
-    #!/bin/bash
-    echo "Starting CodeDeploy agent deployment"
-    ID=$(aws deploy create-deployment \
-        --application-name ${aws_codedeploy_app.application_main.name} \
-        --deployment-config-name CodeDeployDefault.OneAtATime \
-        --deployment-group-name ${aws_codedeploy_deployment_group.application_main.deployment_group_name} \
-        --appspec-content file://appspec.json \
-        --description "Deployment from Terraform" \
-        --output json | jq -r '.deploymentId')
-    echo "waiting for deployment to complete"
+#!/bin/bash
+echo "Starting CodeDeploy agent deployment"
+ID=$(aws deploy create-deployment \
+    --application-name ${aws_codedeploy_app.application_main.name} \
+    --deployment-config-name CodeDeployDefault.OneAtATime \
+    --deployment-group-name ${aws_codedeploy_deployment_group.application_main.deployment_group_name} \
+    --appspec-content "$(cat appspec.json)" \
+    --description "Deployment from Terraform" \
+    --output json | jq -r '.deploymentId')
+
+echo "waiting for deployment to complete"
+STATUS=$(aws deploy get-deployment \
+  --deployment-id "$ID" \
+  --output json | jq -r '.deploymentInfo.status')
+
+while [ "$STATUS" == "Created" ] || [ "$STATUS" == "InProgress" ] || [ "$STATUS" == "Pending" ] || [ "$STATUS" == "Queued" ] || [ "$STATUS" == "Ready" ]; do
+    echo "Deployment status: $STATUS"
     STATUS=$(aws deploy get-deployment \
-      --deployment-id $ID \
-      --output json | jq -r '.deploymentInfo.status')
-    while [ "$STATUS" == "Created" || "$STATUS" == "InProgress" || "$STATUS" == "Pending" || "$STATUS" == "Queued" || "$STATUS" == "Ready" ||]; do
-        echo "Deployment status: $STATUS"
-        STATUS=$(aws deploy get-deployment \
-            --deployment-id $ID \
-            --output json | jq -r '.deploymentInfo.status')
-        echo "waiting for 30 seconds."
-        sleep 30
-    done
-    if [ "$STATUS" == "Succeeded" ]; then
-        echo "Deployment $ID succeeded"
-    else
-        echo "Deployment $ID failed"
-        exit 1
-    fi
+        --deployment-id "$ID" \
+        --output json | jq -r '.deploymentInfo.status')
+    echo "waiting for 30 seconds."
+    sleep 30
+done
+
+if [ "$STATUS" == "Succeeded" ]; then
+    echo "Deployment $ID succeeded"
+else
+    echo "Deployment $ID failed"
+    exit 1
+fi
 EOF
 }
 
