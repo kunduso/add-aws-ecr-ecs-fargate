@@ -27,7 +27,10 @@ data "aws_iam_policy_document" "codedeploy" {
       "ecs:DescribeServices",
       "ecs:UpdateServicePrimaryTaskSet"
     ]
-    resources = ["arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:service/*"]
+    resources = [
+      "arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:service/*",
+      "arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task-set/*"
+    ]
   }
   statement {
     effect = "Allow"
