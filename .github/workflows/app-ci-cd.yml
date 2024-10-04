@@ -121,6 +121,11 @@ jobs:
         role-to-assume: ${{ secrets.IAM_ROLE }}
         role-session-name: AWSSession
         aws-region: ${{ env.AWS_REGION }}
+    - name: Verify AWS CLI installation
+      run: aws --version
+    # Install jq for parsing JSON output from AWS CLI
+    - name: Install jq
+      run: sudo apt-get install -y jq
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
