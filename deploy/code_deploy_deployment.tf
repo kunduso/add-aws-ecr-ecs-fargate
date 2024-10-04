@@ -17,21 +17,38 @@ locals {
       }
     ]
   }
-  appspec_content = replace(jsonencode(local.appspec), "\"", "\\\"") # remove unnecessary decimal
+  appspec_content = replace(jsonencode(local.appspec), "\"", "\\\"")
   appspec_sha256  = sha256(jsonencode(local.appspec))
 
   # create deployment script
   script = <<EOF
 #!/bin/bash
 echo "Starting CodeDeploy agent deployment"
-ID=$(aws deploy create-deployment \
-    --application-name ${aws_codedeploy_app.application_main.name} \
-    --deployment-config-name CodeDeployDefault.OneAtATime \
-    --deployment-group-name ${aws_codedeploy_deployment_group.application_main.deployment_group_name} \
-    --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"'${local.appspec_content}'","sha256":"'${local.appspec_sha256}'"}}' \
-    --description "Deployment from Terraform" \
-    --output json | jq -r '.deploymentId')
+aws --version
 
+# Construct the command
+COMMAND=$(cat <<EOT
+aws deploy create-deployment \\
+    --application-name "${aws_codedeploy_app.application_main.name}" \\
+    --deployment-config-name CodeDeployDefault.OneAtATime \\
+    --deployment-group-name "${aws_codedeploy_deployment_group.application_main.deployment_group_name}" \\
+    --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":${jsonencode(local.appspec_content)},"sha256":"${local.appspec_sha256}"}}' \\
+    --description "Deployment from Terraform" \\
+    --output json
+EOT
+)
+
+# Print the command
+echo "Command to be executed:"
+echo "$COMMAND"
+echo "=================================================="
+# Execute the command
+DEPLOYMENT_INFO=$(eval "$COMMAND")
+
+# Extract and print the deployment ID
+DEPLOYMENT_ID=$(echo "$DEPLOYMENT_INFO" | jq -r '.deploymentId')
+echo "Deployment ID: $DEPLOYMENT_ID"
+echo "=================================================="
 echo "waiting for deployment to complete"
 STATUS=$(aws deploy get-deployment \
   --deployment-id "$ID" \
