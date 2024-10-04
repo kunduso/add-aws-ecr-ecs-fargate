@@ -41,16 +41,10 @@ data "aws_iam_policy_document" "codedeploy" {
       "elasticloadbalancing:DeregisterTargets"
     ]
     resources = [
-      "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:loadbalancer/*",
-      "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:listener/*",
-      "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:targetgroup/*"
-    ]
-  }
-  statement {
-    effect  = "Allow"
-    actions = ["s3:GetObject"]
-    resources = [
-      "arn:aws:s3:::*/*"
+      "*"
+      # "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:loadbalancer/*",
+      # "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:listener/*",
+      # "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:targetgroup/*"
     ]
   }
   statement {
