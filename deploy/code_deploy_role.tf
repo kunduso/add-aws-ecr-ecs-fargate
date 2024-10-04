@@ -36,7 +36,9 @@ data "aws_iam_policy_document" "codedeploy" {
       "elasticloadbalancing:DescribeRules",
       "elasticloadbalancing:DescribeTargetGroups",
       "elasticloadbalancing:ModifyListener",
-      "elasticloadbalancing:ModifyRule"
+      "elasticloadbalancing:ModifyRule",
+      "elasticloadbalancing:RegisterTargets",
+      "elasticloadbalancing:DeregisterTargets"
     ]
     resources = [
       "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:loadbalancer/*",
