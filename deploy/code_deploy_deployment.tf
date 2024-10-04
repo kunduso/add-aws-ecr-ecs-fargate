@@ -28,7 +28,7 @@ ID=$(aws deploy create-deployment \
     --application-name ${aws_codedeploy_app.application_main.name} \
     --deployment-config-name CodeDeployDefault.OneAtATime \
     --deployment-group-name ${aws_codedeploy_deployment_group.application_main.deployment_group_name} \
-    --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"'${appspec_content}'","sha256":"'${appspec_sha256}'"}}' \
+    --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"'${local.appspec_content}'","sha256":"'${local.appspec_sha256}'"}}' \
     --description "Deployment from Terraform" \
     --output json | jq -r '.deploymentId')
 
