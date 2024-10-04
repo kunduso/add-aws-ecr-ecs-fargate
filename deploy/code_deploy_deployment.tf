@@ -17,7 +17,7 @@ locals {
       }
     ]
   }
-  
+
   appspec_content = replace(jsonencode(local.appspec), "\"", "\\\"")
   appspec_sha256  = sha256(jsonencode(local.appspec))
 
@@ -83,5 +83,5 @@ resource "null_resource" "code_deploy" {
     command     = "./code_deploy.sh"
     interpreter = ["/bin/bash", "-c"]
   }
-  depends_on = [ local_file.code_deploy_sh ]
+  depends_on = [local_file.code_deploy_sh]
 }
