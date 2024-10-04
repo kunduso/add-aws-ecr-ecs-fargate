@@ -37,10 +37,10 @@ resource "aws_codedeploy_deployment_group" "application_main" {
         listener_arns = [local.infra_output["aws_lb_listener"]]
       }
       target_group {
-        name = local.infra_output["aws_lb_blue_target_group"]
+        name = local.infra_output["aws_lb_blue_target_group_name"]
       }
       target_group {
-        name = local.infra_output["aws_lb_green_target_group"]
+        name = local.infra_output["aws_lb_green_target_group_name"]
       }
     }
   }
