@@ -17,8 +17,8 @@ locals {
       }
     ]
   }
-  appspec_file   = replace(jsonencode(local.appspec), "/\"([0-9]+\\.?[0-9]*)\"/", "$1") # remove unnecessary decimal
-  appspec_sha256 = sha256(jsonencode(local.appspec))
+  appspec_content = replace(jsonencode(local.appspec), "\"", "\\\"") # remove unnecessary decimal
+  appspec_sha256  = sha256(jsonencode(local.appspec))
 
   # create deployment script
   script = <<EOF
@@ -28,7 +28,7 @@ ID=$(aws deploy create-deployment \
     --application-name ${aws_codedeploy_app.application_main.name} \
     --deployment-config-name CodeDeployDefault.OneAtATime \
     --deployment-group-name ${aws_codedeploy_deployment_group.application_main.deployment_group_name} \
-    --appspec-content "$(cat appspec.json)" \
+    --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"'${appspec_content}'","sha256":"'${appspec_sha256}'"}}' \
     --description "Deployment from Terraform" \
     --output json | jq -r '.deploymentId')
 
