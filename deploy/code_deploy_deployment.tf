@@ -10,7 +10,7 @@ locals {
             TaskDefinition = aws_ecs_task_definition.web_app.arn
             LoadBalancerInfo = {
               ContainerName = "first"
-              ContainerPort = "8080"
+              ContainerPort = 8080
             }
           }
         }
@@ -35,7 +35,7 @@ aws deploy create-deployment \
     --application-name "${aws_codedeploy_app.application_main.name}" \
     --deployment-config-name CodeDeployDefault.ECSAllAtOnce \
     --deployment-group-name "${aws_codedeploy_deployment_group.application_main.deployment_group_name}" \
-    --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": "${jsonencode(local.appspec_content)}", "sha256":"${local.appspec_sha256}"}}' \
+    --revision '{"revisionType": "AppSpecContent", "appSpecContent": {"content": "${local.appspec_content}", "sha256":"${local.appspec_sha256}"}}' \
     --description "Deployment from Terraform" \
     --output json
 EOT
