@@ -19,4 +19,7 @@ resource "aws_ecs_service" "service" {
   deployment_controller {
     type = "CODE_DEPLOY"
   }
+  lifecycle {
+    ignore_changes = [ load_balancer, task_definition ]
+  }
 }
