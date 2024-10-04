@@ -24,51 +24,64 @@ locals {
   # create deployment script
   script = <<EOF
 #!/bin/bash
-set -e  # Exit immediately if a command exits with a non-zero status
+set -e
+
 echo "Starting CodeDeploy agent deployment"
 aws --version
 
-DEPLOYMENT_INFO=$(aws deploy create-deployment \
-    --application-name ${aws_codedeploy_app.application_main.name} \
+echo "Constructing deployment command..."
+COMMAND=$(cat <<EOT
+aws deploy create-deployment \
+    --application-name "${aws_codedeploy_app.application_main.name}" \
     --deployment-config-name CodeDeployDefault.ECSAllAtOnce \
-    --deployment-group-name ${aws_codedeploy_deployment_group.application_main.deployment_group_name} \
-    --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":"${local.appspec_content}","sha256":"${local.appspec_sha256}"}}' \
+    --deployment-group-name "${aws_codedeploy_deployment_group.application_main.deployment_group_name}" \
+    --revision '{"revisionType":"AppSpecContent","appSpecContent":{"content":${jsonencode(local.appspec_content)},"sha256":"${local.appspec_sha256}"}}' \
     --description "Deployment from Terraform" \
-    --output json)
+    --output json
+EOT
+)
 
-if [ $? -ne 0 ]; then
-    echo "Failed to create deployment."
+echo "Command to be executed:"
+echo "$COMMAND"
+
+echo "Executing deployment command..."
+DEPLOYMENT_INFO=$(eval "$COMMAND")
+COMMAND_EXIT_CODE=$?
+
+echo "Command exit code: $COMMAND_EXIT_CODE"
+echo "Raw output:"
+echo "$DEPLOYMENT_INFO"
+
+if [ $COMMAND_EXIT_CODE -ne 0 ]; then
+    echo "Error: AWS CLI command failed"
+    exit $COMMAND_EXIT_CODE
+fi
+
+echo "Parsing deployment info..."
+if ! DEPLOYMENT_ID=$(echo "$DEPLOYMENT_INFO" | jq -r '.deploymentId'); then
+    echo "Error: Failed to parse deployment ID from output"
     exit 1
 fi
 
-ID=$(echo \$DEPLOYMENT_INFO | jq -r '.deploymentId')
-STATUS=$(echo \$DEPLOYMENT_INFO | jq -r '.deploymentInfo.status')
-echo "waiting for deployment to complete"
-
-while [[ "\$STATUS" == "Created" || "\$STATUS" == "InProgress" || "\$STATUS" == "Pending" || "\$STATUS" == "Queued" || "\$STATUS" == "Ready" ]]; do
-    echo "Deployment status: \$STATUS"
-    STATUS=$(aws deploy get-deployment \
-        --deployment-id "\$ID" \
-        --output json | jq -r '.deploymentInfo.status')
-    echo "waiting for 30 seconds."
-    sleep 30
-done
-
-if [ "\$STATUS" == "Succeeded" ]; then
-    echo "Deployment \$ID succeeded"
-else
-    echo "Deployment \$ID failed with status \$STATUS"
+if [ "$DEPLOYMENT_ID" == "null" ] || [ -z "$DEPLOYMENT_ID" ]; then
+    echo "Error: Deployment ID is null or empty"
     exit 1
 fi
+
+echo "Deployment ID: $DEPLOYMENT_ID"
+
+echo "Deployment created successfully"
 EOF
 }
+
 
 
 #Create the code_deploy.sh file to run the AWS CodeDeploy deployment
 #https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file
 resource "local_file" "code_deploy_sh" {
-  content  = local.script
-  filename = "${path.module}/code_deploy.sh"
+  content         = local.script
+  filename        = "${path.module}/code_deploy.sh"
+  file_permission = "0755"
   depends_on = [
     aws_codedeploy_app.application_main,
     aws_codedeploy_deployment_group.application_main,
@@ -79,6 +92,9 @@ resource "local_file" "code_deploy_sh" {
 #Execute the code_deploy.sh file to run the AWS CodeDeploy deployment
 #https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource
 resource "null_resource" "code_deploy" {
+  triggers = {
+    script_content = local.script
+  }
   provisioner "local-exec" {
     command     = "./code_deploy.sh"
     interpreter = ["/bin/bash", "-c"]
