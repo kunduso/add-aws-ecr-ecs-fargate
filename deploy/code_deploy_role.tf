@@ -32,13 +32,21 @@ data "aws_iam_policy_document" "codedeploy" {
   statement {
     effect = "Allow"
     actions = [
+      "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+      "elasticloadbalancing:DeregisterTargets",
+      "elasticloadbalancing:DescribeInstanceHealth",
       "elasticloadbalancing:DescribeListeners",
+      "elasticloadbalancing:DescribeLoadBalancerAttributes",
+      "elasticloadbalancing:DescribeLoadBalancers",
       "elasticloadbalancing:DescribeRules",
+      "elasticloadbalancing:DescribeTargetGroupAttributes",
       "elasticloadbalancing:DescribeTargetGroups",
+      "elasticloadbalancing:DescribeTargetHealth",
       "elasticloadbalancing:ModifyListener",
       "elasticloadbalancing:ModifyRule",
-      "elasticloadbalancing:RegisterTargets",
-      "elasticloadbalancing:DeregisterTargets"
+      "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+      "elasticloadbalancing:RegisterTargets"
+
     ]
     resources = [
       "*"
