@@ -35,6 +35,12 @@ data "aws_iam_policy_document" "codedeploy" {
   statement {
     effect = "Allow"
     actions = [
+      "elasticloadbalancing:CreateListener",
+      "elasticloadbalancing:CreateRule",
+      "elasticloadbalancing:CreateTargetGroup",
+      "elasticloadbalancing:DeleteListener",
+      "elasticloadbalancing:DeleteRule",
+      "elasticloadbalancing:DeleteTargetGroup",
       "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
       "elasticloadbalancing:DeregisterTargets",
       "elasticloadbalancing:DescribeInstanceHealth",
@@ -48,9 +54,10 @@ data "aws_iam_policy_document" "codedeploy" {
       "elasticloadbalancing:ModifyListener",
       "elasticloadbalancing:ModifyRule",
       "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
-      "elasticloadbalancing:RegisterTargets"
-
+      "elasticloadbalancing:RegisterTargets",
+      "elasticloadbalancing:SetWebAcl"
     ]
+
     resources = [
       "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:loadbalancer/*",
       "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:listener/*",
