@@ -87,3 +87,7 @@ resource "aws_iam_role_policy" "codedeploy" {
   role   = aws_iam_role.codedeploy.name
   policy = data.aws_iam_policy_document.codedeploy.json
 }
+resource "aws_iam_role_policy" "maanged_policy_codedeploy" {
+  role   = aws_iam_role.codedeploy.name
+  policy = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
+}
