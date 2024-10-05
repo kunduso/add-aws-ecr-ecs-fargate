@@ -94,6 +94,19 @@ resource "aws_iam_policy" "custom_codedeploy_policy" {
         Resource = [
           "arn:aws:codedeploy:${var.region}:${data.aws_caller_identity.current.account_id}:*"
         ]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "lambda:InvokeFunction",
+          "cloudwatch:DescribeAlarms",
+          "sns:Publish",
+          "s3:GetObject",
+          "s3:GetObjectVersion"
+        ],
+        Resource = [
+          "*"
+        ]
       }
     ]
   })
