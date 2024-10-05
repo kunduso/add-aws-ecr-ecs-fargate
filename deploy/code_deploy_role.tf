@@ -61,7 +61,7 @@ resource "aws_iam_policy" "custom_codedeploy_policy" {
           "elasticloadbalancing:SetWebAcl"
         ]
         Resource = [
-          "*",
+          "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:listener-rule/*",
           "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:loadbalancer/*",
           "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:listener/*",
           "arn:aws:elasticloadbalancing:${var.region}:${data.aws_caller_identity.current.account_id}:targetgroup/*"
@@ -99,10 +99,3 @@ resource "aws_iam_role_policy_attachment" "codedeploy_policy_attachement" {
   role       = aws_iam_role.codedeploy_role.name
   policy_arn = aws_iam_policy.custom_codedeploy_policy.arn
 }
-
-# #Attach role to policy
-# #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
-# resource "aws_iam_role_policy_attachment" "attach_mananged_policy_codedeploy" {
-#   role       = aws_iam_role.codedeploy_role.name
-#   policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
-# }
