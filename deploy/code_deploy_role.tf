@@ -87,7 +87,9 @@ resource "aws_iam_role_policy" "codedeploy" {
   role   = aws_iam_role.codedeploy.name
   policy = data.aws_iam_policy_document.codedeploy.json
 }
-resource "aws_iam_role_policy" "maanged_policy_codedeploy" {
-  role   = aws_iam_role.codedeploy.name
-  policy = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
+#Attach role to policy
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
+resource "aws_iam_role_policy_attachment" "attach_mananged_policy_codedeploy" {
+  role       = aws_iam_role.ecs_task_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
 }
