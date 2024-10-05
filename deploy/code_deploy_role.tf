@@ -74,7 +74,7 @@ resource "aws_iam_policy" "custom_codedeploy_policy" {
         ]
         Resource = [
           aws_iam_role.ecs_task_execution_role.arn,
-          aws_iam_role.codedeploy_role.arn
+          aws_iam_role.ecs_task_role.arn
         ]
       },
       {
