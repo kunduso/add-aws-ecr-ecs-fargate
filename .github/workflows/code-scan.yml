@@ -2,18 +2,18 @@ name: checkov-scan
 
 # Controls when the workflow will run
 on:
-  # # Triggers the workflow on push or pull request events but only for the "main" branch
-  # push:
-  #   branches: [ "*" ]
-  #   paths:
-  #     - 'infra/**'
-  #     - 'deploy/**'
-  # pull_request:
-  #   branches: [ "main" ]
-  #   paths:
-  #     - 'infra/**'
-  #     - 'deploy/**'
-  # # Allows you to run this workflow manually from the Actions tab
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "*" ]
+    paths:
+      - 'infra/**'
+      - 'deploy/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'infra/**'
+      - 'deploy/**'
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 permissions: read-all
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
