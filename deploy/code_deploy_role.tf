@@ -94,19 +94,6 @@ resource "aws_iam_policy" "custom_codedeploy_policy" {
         Resource = [
           "arn:aws:codedeploy:${var.region}:${data.aws_caller_identity.current.account_id}:*"
         ]
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "lambda:InvokeFunction",
-          "cloudwatch:DescribeAlarms",
-          "sns:Publish",
-          "s3:GetObject",
-          "s3:GetObjectVersion"
-        ],
-        Resource = [
-          "*"
-        ]
       }
     ]
   })
@@ -115,5 +102,6 @@ resource "aws_iam_policy" "custom_codedeploy_policy" {
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
 resource "aws_iam_role_policy_attachment" "codedeploy_policy_attachement" {
   role       = aws_iam_role.codedeploy_role.name
-  policy_arn = aws_iam_policy.custom_codedeploy_policy.arn
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
+  # policy_arn = aws_iam_policy.custom_codedeploy_policy.arn
 }
