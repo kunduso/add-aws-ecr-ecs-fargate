@@ -9,7 +9,7 @@ resource "aws_codedeploy_deployment_group" "application_main" {
   app_name               = aws_codedeploy_app.application_main.name
   deployment_group_name  = "${var.name}-deploy-group"
   deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"
-  service_role_arn       = aws_iam_role.codedeploy.arn
+  service_role_arn       = aws_iam_role.codedeploy_role.arn
   blue_green_deployment_config {
     deployment_ready_option {
       action_on_timeout = "CONTINUE_DEPLOYMENT"
@@ -37,10 +37,10 @@ resource "aws_codedeploy_deployment_group" "application_main" {
         listener_arns = [local.infra_output["aws_lb_listener"]]
       }
       target_group {
-        name = local.infra_output["aws_lb_blue_target_group"]
+        name = local.infra_output["aws_lb_blue_target_group_name"]
       }
       target_group {
-        name = local.infra_output["aws_lb_green_target_group"]
+        name = local.infra_output["aws_lb_green_target_group_name"]
       }
     }
   }
