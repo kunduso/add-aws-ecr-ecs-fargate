@@ -38,7 +38,6 @@ The [Terraform configurations](./infra/) and [GitHub Actions workflow](./.github
 ## Use Case 2: Build, Scan, and Push Docker Images to Amazon ECR
 
 This use case demonstrates how to build, scan, and push Docker images to Amazon Elastic Container Registry (ECR) using GitHub Actions.
-
 </br> **🔔 Attention:** The specific use case for this repository is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
 ![Image](https://skdevops.files.wordpress.com/2024/04/91-image-1.png)
 The steps involved include:
