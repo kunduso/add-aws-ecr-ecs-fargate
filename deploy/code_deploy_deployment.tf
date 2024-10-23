@@ -104,7 +104,7 @@ resource "local_file" "code_deploy_sh" {
 
 resource "terraform_data" "trigger_code_deploy_deployment" {
   triggers_replace = local.script
-    provisioner "local-exec" {
+  provisioner "local-exec" {
     command     = "./code_deploy.sh"
     interpreter = ["/bin/bash", "-c"]
   }
