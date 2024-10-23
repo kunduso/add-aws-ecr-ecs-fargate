@@ -89,19 +89,7 @@ resource "local_file" "code_deploy_sh" {
   ]
 }
 
-# #Execute the code_deploy.sh file to run the AWS CodeDeploy deployment
-# #https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource
-# resource "null_resource" "code_deploy" {
-#   triggers = {
-#     script_content = local.script
-#   }
-#   provisioner "local-exec" {
-#     command     = "./code_deploy.sh"
-#     interpreter = ["/bin/bash", "-c"]
-#   }
-#   depends_on = [local_file.code_deploy_sh]
-# }
-
+#https://developer.hashicorp.com/terraform/language/resources/terraform-data
 resource "terraform_data" "trigger_code_deploy_deployment" {
   triggers_replace = local.script
   provisioner "local-exec" {
