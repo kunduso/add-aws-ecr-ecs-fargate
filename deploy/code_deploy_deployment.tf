@@ -91,7 +91,7 @@ resource "local_file" "code_deploy_sh" {
 
 #https://developer.hashicorp.com/terraform/language/resources/terraform-data
 resource "terraform_data" "trigger_code_deploy_deployment" {
-  # triggers_replace = local.script
+  triggers_replace = local_file.code_deploy_sh
   provisioner "local-exec" {
     command     = "./code_deploy.sh"
     interpreter = ["/bin/bash", "-c"]
