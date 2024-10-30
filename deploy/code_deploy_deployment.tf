@@ -97,4 +97,7 @@ resource "terraform_data" "trigger_code_deploy_deployment" {
     interpreter = ["/bin/bash", "-c"]
   }
   depends_on = [local_file.code_deploy_sh]
+  lifecycle {
+    replace_triggered_by = [local_file.code_deploy_sh]
+  }
 }
