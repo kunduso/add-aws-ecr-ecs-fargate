@@ -11,6 +11,7 @@ This repository contains code and resources related to various use cases involvi
 - [Use Case 3: Deploy to Amazon ECS Services](#use-case-3-deploy-to-amazon-ecs-services)
 - [Use Case 4: Enable Health Checks and CloudWatch Logs for AWS Fargate Tasks](#use-case-4-enable-health-checks-and-cloudwatch-logs-for-aws-fargate-tasks)
 - [Use Case 5: Protecting Credentials and Variables in AWS Fargate Containers using AWS Secrets Manager](#use-case-5-protecting-credentials-and-variables-in-aws-fargate-containers-using-aws-secrets-manager)
+- [Use Case 6: Blue-Green Deployments for Amazon ECS Fargate with CodeDeploy, Terraform, and GitHub Actions](#use-case-6-blue-green-deployments-for-amazon-ecs-fargate-with-codedeploy-terraform-and-github-actions)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Contributing](#contributing)
