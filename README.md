@@ -11,6 +11,7 @@ This repository contains code and resources related to various use cases involvi
 - [Use Case 3: Deploy to Amazon ECS Services](#use-case-3-deploy-to-amazon-ecs-services)
 - [Use Case 4: Enable Health Checks and CloudWatch Logs for AWS Fargate Tasks](#use-case-4-enable-health-checks-and-cloudwatch-logs-for-aws-fargate-tasks)
 - [Use Case 5: Protecting Credentials and Variables in AWS Fargate Containers using AWS Secrets Manager](#use-case-5-protecting-credentials-and-variables-in-aws-fargate-containers-using-aws-secrets-manager)
+- [Use Case 6: Blue-Green Deployments for Amazon ECS Fargate with CodeDeploy, Terraform, and GitHub Actions](#use-case-6-blue-green-deployments-for-amazon-ecs-fargate-with-codedeploy-terraform-and-github-actions)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -20,7 +21,7 @@ This repository contains code and resources related to various use cases involvi
 ## Use Case 1: Create Infrastructure for Amazon ECS
 
 This use case covers the creation of all necessary infrastructure components required to host an Amazon Elastic Container Service (ECS) using Terraform and GitHub Actions. 
-</br> **🔔 Attention:** The specific use case is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
+</br> **🔔 Attention:** The code for this specific use case is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
 
 ![Image](https://skdevops.files.wordpress.com/2024/04/90-image-1-2.png)
 The components include:
@@ -38,7 +39,7 @@ The [Terraform configurations](./infra/) and [GitHub Actions workflow](./.github
 ## Use Case 2: Build, Scan, and Push Docker Images to Amazon ECR
 
 This use case demonstrates how to build, scan, and push Docker images to Amazon Elastic Container Registry (ECR) using GitHub Actions.
-</br> **🔔 Attention:** The specific use case for this repository is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
+</br> **🔔 Attention:** The code for this specific use case is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
 ![Image](https://skdevops.files.wordpress.com/2024/04/91-image-1.png)
 The steps involved include:
 
@@ -49,7 +50,7 @@ The steps involved include:
 The provided [GitHub Actions workflows](./.github/workflows/app-ci-cd.yml) automate the entire process, enabling continuous integration and delivery of Docker images to Amazon ECR. Here is a detailed note explaining the same - [push-docker-image-to-amazon-ecr-using-github-actions.](http://skundunotes.com/2024/04/28/push-docker-image-to-amazon-ecr-using-github-actions/)
 
 ## Use Case 3: Deploy to Amazon ECS Services
-**🔔 Attention:** The specific use case for this repository is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
+**🔔 Attention:** The code for this specific use case is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
 ![Image](https://skdevops.files.wordpress.com/2024/05/92-image-0-2.png)
 This use case focuses on deploying Amazon ECS services using Terraform and GitHub Actions. It includes the following steps:
 
@@ -63,7 +64,7 @@ This use case focuses on deploying Amazon ECS services using Terraform and GitHu
 The [Terraform configurations](./deploy/) and [GitHub Actions workflows](./.github/workflows/app-ci-cd.yml) handle the deployment and management of the ECS services, ensuring a streamlined and automated process. Here is a detailed note explaining the same - [continuous-deployment-of-amazon-ecs-service-using-terraform-and-github-actions.](http://skundunotes.com/2024/05/06/continuous-deployment-of-amazon-ecs-service-using-terraform-and-github-actions/)
 
 ## Use Case 4: Enable Health Checks and CloudWatch Logs for AWS Fargate Tasks
-**🔔 Attention:** The specific use case for this repository is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
+**🔔 Attention:** The code for this specific use case is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
 ![Image](https://skdevops.files.wordpress.com/2024/06/94-image-0.png)
 </br> In AWS Fargate, ensuring the health and monitoring of your tasks is crucial for maintaining reliability and performance. By enabling health checks, you can automatically verify the status of your Fargate tasks, allowing AWS to replace any instances that fail these checks, thereby ensuring seamless operation. Additionally, integrating CloudWatch Logs provides real-time monitoring and centralized logging, capturing logs from each Fargate task and enabling detailed analysis, troubleshooting, and auditing. Together, these features empower you to maintain high availability and streamline operational management within your AWS Fargate environment. This use case has two steps:
 
@@ -73,7 +74,7 @@ The [Terraform configurations](./deploy/) and [GitHub Actions workflows](./.gith
 </br> Here is a detailed note on how to enable that in AWS Fargate -[enabling-health-checks-and-cloudwatch-logs-for-aws-fargate-tasks.](https://skundunotes.com/2024/06/27/enabling-health-checks-and-cloudwatch-logs-for-aws-fargate-tasks/)
 
 ## Use Case 5: Protecting Credentials and Variables in AWS Fargate Containers using AWS Secrets Manager
-**🔔 Attention:** The specific use case for this repository is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
+**🔔 Attention:** The code for this specific use case is located in the [`create-ecs-service`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/create-ecs-service) branch. Please refer to this branch instead of the default `main` branch. **🔔**
 ![Image](https://skdevops.files.wordpress.com/2024/06/96-image-0.png)
 This use case focuses on how to store sensitive variables in the AWS Secrets Manager secret and securely access them from an AWS Fargate task container. This use case has five steps:
 
@@ -84,6 +85,20 @@ This use case focuses on how to store sensitive variables in the AWS Secrets Man
 5. Update the Node.js application to access and display the secret
 
 For more details, please choose - [protecting-credentials-and-variables-in-aws-fargate-containers-using-aws-secrets-manager.](https://skundunotes.com/2024/07/02/protecting-credentials-and-variables-in-aws-fargate-containers-using-aws-secrets-manager/)
+
+## Use Case 6: Blue-Green Deployments for Amazon ECS Fargate with CodeDeploy, Terraform, and GitHub Actions
+**🔔 Attention:** The code for this specific use case is located in the [`enable-blue-green-deployment`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/enable-blue-green-deployment) branch. Please refer to this branch instead of the default `main` branch. **🔔**
+![Image](https://skdevops.files.wordpress.com/2024/10/104-image-0.png)
+
+This use case focuses on how to use a blue-green deployment pattern to release updates to an Amazon ECS service using Terraform and AWS CodeDeploy. This use case has four steps:
+
+1. Create Amazon ECS resources
+2. Create an IAM role for AWS Code Deploy
+3. Create a CodeDeploy application and deployment group
+4. Create the CodeDeploy deployment
+
+For more details, please choose - [blue-green-deployments-for-amazon-ecs-fargate-with-codedeploy-terraform-and-github-actions.](https://skundunotes.com/2024/10/31/blue-green-deployments-for-amazon-ecs-fargate-with-codedeploy-terraform-and-github-actions/)
+
 
 Additionally, this repository includes:
 </br> - [Checkov pipeline](./.github/workflows/code-scan.yml) for scanning the Terraform code for security and compliance issues.
