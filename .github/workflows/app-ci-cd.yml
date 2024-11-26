@@ -5,18 +5,17 @@ on:
     branches: [ '*' ]
     paths:
       - 'app/**'
+      - '!app/tf/**'
       - 'deploy/**'
       - '.github/workflows/app-ci-cd.yml'
-    paths-ignore:
-      - 'app/tf/**'
   pull_request:
     branches: ["main"]
     paths:
       - 'app/**'
+      - '!app/tf/**'
       - 'deploy/**'
       - '.github/workflows/app-ci-cd.yml'
-    paths-ignore:
-      - 'app/tf/**'
+
 env:
   AWS_REGION: us-east-2                   # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: app-6
