@@ -1,6 +1,8 @@
 # Create a KMS key for encryption
 resource "aws_kms_key" "ecr_kms_key" {
-  description = "KMS key to encrypt ECR images in central AWS account."
+  description             = "KMS key to encrypt ECR images in central AWS account."
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
 }
 # KMS key policy allowing AccountB to use the key for ECR image encryption/decryption
 resource "aws_kms_alias" "ecr_key_alias" {
