@@ -33,7 +33,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./infra
+        working-directory: ./app/tf
 
     steps:
     # Checkout the repository to the GitHub Actions runner
