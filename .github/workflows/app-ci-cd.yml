@@ -65,7 +65,7 @@ jobs:
       run: docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
     # https://github.com/marketplace/actions/aqua-security-trivy
     - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@0.28.0
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: ${{ env.ECR_REPOSITORY }}
