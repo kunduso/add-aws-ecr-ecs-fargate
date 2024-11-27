@@ -92,7 +92,7 @@ resource "aws_iam_policy" "ecr_access_policy" {
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage"
         ]
-        Resource = "*"
+        Resource = "arn:aws:ecr:${var.region}:${local.ecr_hosting_account}:repository/*"
       },
       {
         Effect = "Allow"
