@@ -39,7 +39,4 @@ resource "aws_alb_listener" "listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.arn
   }
-  lifecycle {
-    ignore_changes = [default_action]
-  }
 }
