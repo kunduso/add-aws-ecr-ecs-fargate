@@ -15,7 +15,7 @@ resource "aws_lb" "app_lb" {
 
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
 resource "aws_lb_target_group" "target_group" {
-  name        = "${var.name}"
+  name        = var.name
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
