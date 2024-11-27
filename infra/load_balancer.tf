@@ -14,8 +14,8 @@ resource "aws_lb" "app_lb" {
 }
 
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
-resource "aws_lb_target_group" "blue_target_group" {
-  name        = "${var.name}-blue"
+resource "aws_lb_target_group" "target_group" {
+  name        = var.name
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
@@ -27,20 +27,7 @@ resource "aws_lb_target_group" "blue_target_group" {
   #checkov:skip=CKV_AWS_378: Ensure AWS Load Balancer doesn't use HTTP protocol
   #This is disabled since this is non-prod.
 }
-#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group
-resource "aws_lb_target_group" "green_target_group" {
-  name        = "${var.name}-green"
-  port        = 8080
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = aws_vpc.this.id
-  health_check {
-    matcher = "200,301,302,404"
-    path    = "/healthcheck"
-  }
-  #checkov:skip=CKV_AWS_378: Ensure AWS Load Balancer doesn't use HTTP protocol
-  #This is disabled since this is non-prod.
-}
+
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 resource "aws_alb_listener" "listener" {
   #checkov:skip=CKV_AWS_2: This is disabled since this is non-prod.
@@ -50,7 +37,7 @@ resource "aws_alb_listener" "listener" {
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.blue_target_group.arn
+    target_group_arn = aws_lb_target_group.target_group.arn
   }
   lifecycle {
     ignore_changes = [default_action]

@@ -7,10 +7,8 @@ resource "aws_ssm_parameter" "infra_output" {
   value = jsonencode({
     "subnet_ids" : [for subnet in aws_subnet.private : subnet.id],
     "container_security_group_id" : "${aws_security_group.container_sg.id}",
-    "aws_lb_blue_target_group_arn" : "${aws_lb_target_group.blue_target_group.arn}",
-    "aws_lb_green_target_group_arn" : "${aws_lb_target_group.green_target_group.arn}",
-    "aws_lb_blue_target_group_name" : "${aws_lb_target_group.blue_target_group.name}",
-    "aws_lb_green_target_group_name" : "${aws_lb_target_group.green_target_group.name}",
+    "aws_lb_target_group_arn" : "${aws_lb_target_group.target_group.arn}",
+    "aws_lb_target_group_name" : "${aws_lb_target_group.target_group.name}",
     "aws_lb_listener" : "${aws_alb_listener.listener.arn}",
     "aws_lb" : "${aws_lb.app_lb.arn}",
     "aws_vpc_id" : "${aws_vpc.this.id}",
