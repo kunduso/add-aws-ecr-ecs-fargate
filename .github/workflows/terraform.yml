@@ -24,7 +24,7 @@ jobs:
   terraform:
     name: 'continuous-integration'
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
     permissions:
       contents: read
       id-token: write

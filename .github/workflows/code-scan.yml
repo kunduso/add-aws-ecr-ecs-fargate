@@ -8,11 +8,13 @@ on:
     paths:
       - 'infra/**'
       - 'deploy/**'
+      - 'app/tf/**'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'infra/**'
       - 'deploy/**'
+      - 'app/tf/**'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 permissions: read-all
@@ -29,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./infra
+        working-directory: .
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so follow-up steps can access it

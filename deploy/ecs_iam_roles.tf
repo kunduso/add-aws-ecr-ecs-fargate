@@ -76,6 +76,35 @@ resource "aws_iam_policy" "secrets_manager_read_policy" {
     ]
   })
 }
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
+resource "aws_iam_policy" "ecr_access_policy" {
+  name        = "ecr-access-policy"
+  description = "Policy to allow ECR image pulling and KMS decryption"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage"
+        ]
+        Resource = "arn:aws:ecr:${var.region}:${local.ecr_hosting_account}:repository/*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:Decrypt"
+        ]
+        Resource = "arn:aws:kms:${var.region}:${local.ecr_hosting_account}:key/*"
+      }
+    ]
+  })
+}
+
 #Attach role to policy
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
 resource "aws_iam_role_policy_attachment" "attach_secrets_read_task_role" {
@@ -87,4 +116,9 @@ resource "aws_iam_role_policy_attachment" "attach_secrets_read_task_role" {
 resource "aws_iam_role_policy_attachment" "attach_secrets_read_task_execution_role" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.secrets_manager_read_policy.arn
+}
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
+resource "aws_iam_role_policy_attachment" "attach_ecr_access_task_execution_role" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.ecr_access_policy.arn
 }

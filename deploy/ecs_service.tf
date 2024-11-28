@@ -16,10 +16,4 @@ resource "aws_ecs_service" "service" {
     subnets          = local.infra_output["subnet_ids"]
     assign_public_ip = false
   }
-  deployment_controller {
-    type = "CODE_DEPLOY"
-  }
-  lifecycle {
-    ignore_changes = [load_balancer, task_definition]
-  }
 }
