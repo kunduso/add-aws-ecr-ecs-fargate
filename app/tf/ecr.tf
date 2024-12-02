@@ -2,7 +2,7 @@ data "aws_caller_identity" "current" {}
 locals {
   principal_root_arn       = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
   development_account      = "743794601996"
-  development_env_root_arn = "arn:aws:iam::${local.development_account}:root"
+  development_env_role_arn = "arn:aws:iam::${local.development_account}:role/*"
 }
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository
 resource "aws_ecr_repository" "image_repo" {
@@ -28,7 +28,7 @@ resource "aws_ecr_repository_policy" "repository_policy" {
         Sid    = "AllowCrossAccountPull"
         Effect = "Allow"
         Principal = {
-          AWS = "${local.development_env_root_arn}"
+          AWS = "${local.development_env_role_arn}"
         }
         Action = [
           "ecr:BatchCheckLayerAvailability",

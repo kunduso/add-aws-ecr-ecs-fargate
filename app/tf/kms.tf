@@ -29,11 +29,9 @@ resource "aws_kms_key_policy" "ecr_key_policy" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = "${local.development_env_root_arn}"
+          AWS = "${local.development_env_role_arn}"
         }
-        Action = [
-          "kms:Decrypt"
-        ]
+        Action = ["kms:Decrypt"]
         Resource = "*"
       }
     ]
