@@ -12,6 +12,7 @@ This repository contains code and resources related to various use cases involvi
 - [Use Case 4: Enable Health Checks and CloudWatch Logs for AWS Fargate Tasks](#use-case-4-enable-health-checks-and-cloudwatch-logs-for-aws-fargate-tasks)
 - [Use Case 5: Protecting Credentials and Variables in AWS Fargate Containers using AWS Secrets Manager](#use-case-5-protecting-credentials-and-variables-in-aws-fargate-containers-using-aws-secrets-manager)
 - [Use Case 6: Blue-Green Deployments for Amazon ECS Fargate with CodeDeploy, Terraform, and GitHub Actions](#use-case-6-blue-green-deployments-for-amazon-ecs-fargate-with-codedeploy-terraform-and-github-actions)
+- [Use Case 7: Setup cross-account Amazon Elastic Container Registry (ECR) access using Terraform and GitHub Actions](#use-case-7-setup-cross-account-amazon-elastic-container-registry-ecr-access-using-terraform-and-github-actions)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -99,6 +100,12 @@ This use case focuses on how to use a blue-green deployment pattern to release u
 
 For more details, please choose - [blue-green-deployments-for-amazon-ecs-fargate-with-codedeploy-terraform-and-github-actions.](https://skundunotes.com/2024/10/31/blue-green-deployments-for-amazon-ecs-fargate-with-codedeploy-terraform-and-github-actions/)
 
+## Use Case 7: Setup cross-account Amazon Elastic Container Registry (ECR) access using Terraform and GitHub Actions
+**🔔 Attention:** The code for this specific use case is located in the [`central-ecr`](https://github.com/kunduso/add-aws-ecr-ecs-fargate/tree/central-ecr) branch. Please refer to this branch instead of the default `main` branch. **🔔**
+![Image](https://skdevops.files.wordpress.com/2024/12/107-image-0.png)
+Application development teams manage multiple product environments—Dev, Test, Stage, and Prod—to ensure isolation, security, governance, and management. In this setup, it is common to adopt a **spoke-and-wheel architecture**, where an Amazon ECR repository (acting as the hub) is shared across various container hosting environments (such as Amazon ECS clusters) located in different AWS accounts. 
+
+This architecture is achieved by hosting the ECR repository in one AWS account and deploying ECS services for each environment in separate AWS accounts. To enable cross-account access, specific AWS IAM permissions must be configured in both the ECR and ECS accounts. In this **use-case**, I explain the Terraform configuration to apply to the AWS account hosting the Amazon ECR repository and the AWS account hosting the Amazon ECS service. To read more, choose  [-setup-cross-account-amazon-elastic-container-registry-ecr-access-using-terraform-and-github-actions.](https://skundunotes.com/2024/12/04/setup-cross-account-amazon-elastic-container-registry-ecr-access-using-terraform-and-github-actions/)
 
 Additionally, this repository includes:
 </br> - [Checkov pipeline](./.github/workflows/code-scan.yml) for scanning the Terraform code for security and compliance issues.
