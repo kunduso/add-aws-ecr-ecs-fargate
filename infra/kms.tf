@@ -39,7 +39,7 @@ resource "aws_kms_key_policy" "encrypt_app" {
         Resource : "*",
         Condition : {
           ArnEquals : {
-            "kms:EncryptionContext:aws:logs:arn" : [local.ecs_log_group_arn]
+            "kms:EncryptionContext:aws:logs:arn" : [local.ecs_log_group_arn, local.service_log_group_arn]
           }
         }
       }
