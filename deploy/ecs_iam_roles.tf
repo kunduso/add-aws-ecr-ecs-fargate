@@ -105,6 +105,34 @@ resource "aws_iam_policy" "ecr_access_policy" {
   })
 }
 
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
+resource "aws_iam_policy" "ecs_cloudwatch_logs_policy" {
+  name        = "${var.name}-ecs-cloudwatch-logs"
+  description = "IAM policy for ECS to create and write to CloudWatch Logs."
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "logs:CreateLogGroup"
+        ]
+        Resource = [local.infra_output["service_connect_log_group_arn"]]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "kms:Decrypt"
+        ]
+        Resource = [local.infra_output["kms_arn"]]
+      }
+    ]
+  })
+}
+
 #Attach role to policy
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
 resource "aws_iam_role_policy_attachment" "attach_secrets_read_task_role" {
@@ -121,4 +149,9 @@ resource "aws_iam_role_policy_attachment" "attach_secrets_read_task_execution_ro
 resource "aws_iam_role_policy_attachment" "attach_ecr_access_task_execution_role" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.ecr_access_policy.arn
+}
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment
+resource "aws_iam_role_policy_attachment" "attach_cloudwatch_logs_task_execution_role" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.ecs_cloudwatch_logs_policy.arn
 }
